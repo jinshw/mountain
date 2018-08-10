@@ -76,6 +76,24 @@
             <version>2.9.2</version>
         </dependency>
         <!--// swagger2 -->
+        <!-- 添加oracle jdbc driver -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>10.2.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
 
 
     </dependencies>

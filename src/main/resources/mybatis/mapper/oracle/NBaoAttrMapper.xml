@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.site.mountain.dao.oracle.NBaoAttrDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.site.mountain.entity.NBaoAttr">
+        <result column="F_VC_GLLXJBQKMXBZJ" jdbcType="VARCHAR" property="F_VC_GLLXJBQKMXBZJ"/>
+        <result column="F_NB_ND" jdbcType="DOUBLE" property="F_NB_ND"/>
+        <result column="F_VC_XZQH" jdbcType="VARCHAR" property="F_VC_XZQH"/>
+        <result column="F_VC_LXBH" jdbcType="VARCHAR" property="F_VC_LXBH"/>
+        <result column="F_VC_LXMC" jdbcType="VARCHAR" property="F_VC_LXMC"/>
+        <result column="F_VC_GLLDQDMC" jdbcType="VARCHAR" property="F_VC_GLLDQDMC"/>
+        <result column="F_VC_GLLDZDMC" jdbcType="VARCHAR" property="F_VC_GLLDZDMC"/>
+        <result column="F_NB_GLLDQDZH" jdbcType="DOUBLE" property="F_NB_GLLDQDZH"/>
+        <result column="F_NB_GLLDZDZH" jdbcType="DOUBLE" property="F_NB_GLLDZDZH"/>
+        <result column="F_NB_GLLDLC" jdbcType="DOUBLE" property="F_NB_GLLDLC"/>
+        <result column="F_VC_GLJSDJDM" jdbcType="VARCHAR" property="F_VC_GLJSDJDM"/>
+        <result column="F_VC_GLJSDJMC" jdbcType="VARCHAR" property="F_VC_GLJSDJMC"/>
+        <result column="F_CR_SFYFGS" jdbcType="CHAR" property="F_CR_SFYFGS"/>
+        <result column="F_NB_CDSL" jdbcType="DOUBLE" property="F_NB_CDSL"/>
+        <result column="F_VC_MCLXBM" jdbcType="VARCHAR" property="F_VC_MCLXBM"/>
+        <result column="F_VC_MCLXMC" jdbcType="VARCHAR" property="F_VC_MCLXMC"/>
+        <result column="F_NB_LJKD" jdbcType="DOUBLE" property="F_NB_LJKD"/>
+        <result column="F_NB_LMKD" jdbcType="DOUBLE" property="F_NB_LMKD"/>
+        <result column="F_NB_GLMCHD" jdbcType="DOUBLE" property="F_NB_GLMCHD"/>
+        <result column="F_NB_GLLDSJSS" jdbcType="DOUBLE" property="F_NB_GLLDSJSS"/>
+        <result column="F_NB_XJND" jdbcType="DOUBLE" property="F_NB_XJND"/>
+        <result column="F_NB_GJND" jdbcType="DOUBLE" property="F_NB_GJND"/>
+        <result column="F_NB_ZJYCDZXND" jdbcType="DOUBLE" property="F_NB_ZJYCDZXND"/>
+        <result column="F_VC_DLLXBM" jdbcType="VARCHAR" property="F_VC_DLLXBM"/>
+        <result column="F_CR_SFCGLD" jdbcType="CHAR" property="F_CR_SFCGLD"/>
+        <result column="F_CR_SFDTLD" jdbcType="CHAR" property="F_CR_SFDTLD"/>
+        <result column="F_CR_SFSFLD" jdbcType="CHAR" property="F_CR_SFSFLD"/>
+        <result column="F_VC_CFLDLXBH" jdbcType="VARCHAR" property="F_VC_CFLDLXBH"/>
+        <result column="F_NB_CFLDQDZH" jdbcType="DOUBLE" property="F_NB_CFLDQDZH"/>
+        <result column="F_NB_CFLDZDZH" jdbcType="DOUBLE" property="F_NB_CFLDZDZH"/>
+        <result column="F_NB_YHLC" jdbcType="DOUBLE" property="F_NB_YHLC"/>
+        <result column="F_NB_KLVLC" jdbcType="DOUBLE" property="F_NB_KLVLC"/>
+        <result column="F_NB_YLHLC" jdbcType="DOUBLE" property="F_NB_YLHLC"/>
+        <result column="F_VC_DMLXBM" jdbcType="VARCHAR" property="F_VC_DMLXBM"/>
+        <result column="F_VC_DMLXMC" jdbcType="VARCHAR" property="F_VC_DMLXMC"/>
+        <result column="F_NB_HDSL" jdbcType="DOUBLE" property="F_NB_HDSL"/>
+        <result column="F_VC_GYDMBM" jdbcType="VARCHAR" property="F_VC_GYDMBM"/>
+        <result column="F_VC_GYDMMC" jdbcType="VARCHAR" property="F_VC_GYDMMC"/>
+        <result column="F_NB_SJCRK" jdbcType="DOUBLE"  property="F_NB_SJCRK"/>
+        <result column="F_NB_NJRJTL" jdbcType="DOUBLE"  property="F_NB_NJRJTL"/>
+        <result column="F_VC_GDTZQLXBH" jdbcType="VARCHAR" property="F_VC_GDTZQLXBH"/>
+        <result column="F_NB_GDZHCDYLLC" jdbcType="DOUBLE"  property="F_NB_GDZHCDYLLC"/>
+        <result column="F_CR_SFAGXGLGLJY" jdbcType="CHAR" property="F_CR_SFAGXGLGLJY"/>
+        <result column="F_VC_BZ" jdbcType="VARCHAR" property="F_VC_BZ"/>
+        <result column="F_DT_CJSJ" jdbcType="DATE" property="F_DT_CJSJ"/>
+        <result column="F_DT_GXSJ" jdbcType="DATE" property="F_DT_GXSJ"/>
+        <result column="F_VC_SJLY" jdbcType="VARCHAR" property="F_VC_SJLY"/>
+        <result column="F_VC_JDMC" jdbcType="VARCHAR" property="F_VC_JDMC"/>
+        <result column="F_NB_YZBS" jdbcType="DOUBLE" property="F_NB_YZBS"/>
+        <result column="F_VC_FSBS" jdbcType="VARCHAR" property="F_VC_FSBS"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        F_VC_GLLXJBQKMXBZJ,
+        F_NB_ND,
+        F_VC_XZQH,
+        F_VC_LXBH,
+        F_VC_LXMC,
+        F_VC_GLLDQDMC,
+        F_VC_GLLDZDMC,
+        F_NB_GLLDQDZH,
+        F_NB_GLLDZDZH,
+        F_NB_GLLDLC,
+        F_VC_GLJSDJDM,
+        F_VC_GLJSDJMC,
+        F_CR_SFYFGS,
+        F_NB_CDSL,
+        F_VC_MCLXBM,
+        F_VC_MCLXMC,
+        F_NB_LJKD,
+        F_NB_LMKD,
+        F_NB_GLMCHD,
+        F_NB_GLLDSJSS,
+        F_NB_XJND,
+        F_NB_GJND,
+        F_NB_ZJYCDZXND,
+        F_VC_DLLXBM,
+        F_CR_SFCGLD,
+        F_CR_SFDTLD,
+        F_CR_SFSFLD,
+        F_VC_CFLDLXBH,
+        F_NB_CFLDQDZH,
+        F_NB_CFLDZDZH,
+        F_NB_YHLC,
+        F_NB_KLVLC,
+        F_NB_YLHLC,
+        F_VC_DMLXBM,
+        F_VC_DMLXMC,
+        F_NB_HDSL,
+        F_VC_GYDMBM,
+        F_VC_GYDMMC,
+        F_NB_SJCRK,
+        F_NB_NJRJTL,
+        F_VC_GDTZQLXBH,
+        F_NB_GDZHCDYLLC,
+        F_CR_SFAGXGLGLJY,
+        F_VC_BZ,
+        F_DT_CJSJ,
+        F_DT_GXSJ,
+        F_VC_SJLY,
+        F_VC_JDMC,
+        F_NB_YZBS,
+        F_VC_FSBS
+    </sql>
+
+    <select id="findList" parameterType="com.site.mountain.entity.NBaoAttr" resultMap="AllColumnMap">
+        select
+        <include refid="all_column" />
+        from XJCX.V_A_GLBB_GLLXJBQKMXB
+        <where>
+            <if test="F_VC_LXBH != null and F_VC_LXBH !='' ">
+                AND  F_VC_LXBH = #{F_VC_LXBH}
+            </if>
+            <if test="F_NB_GLLDQDZH != null and F_NB_GLLDQDZH !='' ">
+                AND  F_NB_GLLDQDZH &gt;= #{F_NB_GLLDQDZH}
+            </if>
+            <if test="F_NB_GLLDZDZH != null and F_NB_GLLDZDZH !='' ">
+                AND  F_NB_GLLDZDZH &lt;= #{F_NB_GLLDZDZH}
+            </if>
+        </where>
+        ORDER BY F_NB_GLLDQDZH ASC
+    </select>
+
+
+</mapper>
+

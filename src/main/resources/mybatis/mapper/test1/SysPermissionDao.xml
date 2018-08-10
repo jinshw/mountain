@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.site.mountain.dao.test1.SysPermissionDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysPermission">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="resource_type" property="resourceType"/>
+        <result column="url" property="url"/>
+        <result column="permission" property="permission"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="parent_ids" property="parentIds"/>
+        <result column="available" property="available"/>
+    </resultMap>
+    
+    <resultMap id="premissionRoleMap" type="com.site.mountain.entity.SysPermission" extends="AllColumnMap">
+        <collection property="roles" columnPrefix="r_"
+                    ofType="com.site.mountain.entity.SysRole"
+                    resultMap="com.site.mountain.dao.test1.SysRoleDao.AllColumnMap"></collection>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        `id`,
+        `name`,
+        `resource_type`,
+        `url`,
+        `permission`,
+        `parent_id`,
+        `parent_ids`,
+        `available`
+    </sql>
+    
+    <select id="findList" parameterType="com.site.mountain.entity.SysPermission"
+        resultMap="premissionRoleMap">
+        SELECT p.*,
+        r.id r_id,
+        r.role r_role,
+        r.available r_available,
+        r.description r_description
+        FROM sys_permission p,sys_role_permission rp,sys_role r
+        where p.id = rp.permission_id and r.id = rp.role_id
+    </select>
+
+    <!--auto generated Code-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.id">
+        INSERT INTO sys_permission (
+            `id`,
+            `name`,
+            `resource_type`,
+            `url`,
+            `permission`,
+            `parent_id`,
+            `parent_ids`,
+            `available`
+        ) VALUES (
+            #{pojo.id},
+            #{pojo.name},
+            #{pojo.resourceType},
+            #{pojo.url},
+            #{pojo.permission},
+            #{pojo.parentId},
+            #{pojo.parentIds},
+            #{pojo.available}
+        )
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.id">
+        INSERT INTO sys_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id!=null"> `id`,</if>
+            <if test="pojo.name!=null"> `name`,</if>
+            <if test="pojo.resourceType!=null"> `resource_type`,</if>
+            <if test="pojo.url!=null"> `url`,</if>
+            <if test="pojo.permission!=null"> `permission`,</if>
+            <if test="pojo.parentId!=null"> `parent_id`,</if>
+            <if test="pojo.parentIds!=null"> `parent_ids`,</if>
+            <if test="pojo.available!=null"> `available`,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id!=null">#{pojo.id},</if>
+            <if test="pojo.name!=null">#{pojo.name},</if>
+            <if test="pojo.resourceType!=null">#{pojo.resourceType},</if>
+            <if test="pojo.url!=null">#{pojo.url},</if>
+            <if test="pojo.permission!=null">#{pojo.permission},</if>
+            <if test="pojo.parentId!=null">#{pojo.parentId},</if>
+            <if test="pojo.parentIds!=null">#{pojo.parentIds},</if>
+            <if test="pojo.available!=null">#{pojo.available},</if>
+        </trim>
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO sys_permission (
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.id},
+            #{pojo.name},
+            #{pojo.resourceType},
+            #{pojo.url},
+            #{pojo.permission},
+            #{pojo.parentId},
+            #{pojo.parentIds},
+            #{pojo.available}
+            )
+        </foreach>
+    </insert>
+
+    <!--auto generated Code-->
+    <update id="update">
+        UPDATE sys_permission
+        <set>
+            <if test="pojo.id != null"> `id` = #{pojo.id}, </if>
+            <if test="pojo.name != null"> `name` = #{pojo.name}, </if>
+            <if test="pojo.resourceType != null"> `resource_type` = #{pojo.resourceType}, </if>
+            <if test="pojo.url != null"> `url` = #{pojo.url}, </if>
+            <if test="pojo.permission != null"> `permission` = #{pojo.permission}, </if>
+            <if test="pojo.parentId != null"> `parent_id` = #{pojo.parentId}, </if>
+            <if test="pojo.parentIds != null"> `parent_ids` = #{pojo.parentIds}, </if>
+            <if test="pojo.available != null"> `available` = #{pojo.available} </if>
+        </set>
+        WHERE id = #{pojo.id}
+    </update>
+</mapper>
+

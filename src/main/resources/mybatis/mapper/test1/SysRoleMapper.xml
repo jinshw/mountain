@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.site.mountain.dao.test1.SysRoleDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysRole">
+        <result column="id" property="id"/>
+        <result column="role" property="role"/>
+        <result column="description" property="description"/>
+        <result column="available" property="available"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        `id`,
+        `role`,
+        `description`,
+        `available`
+    </sql>
+    
+    <resultMap id="roleUserPermissionMap" type="com.site.mountain.entity.SysRole" extends="AllColumnMap">
+        <collection property="userInfos" ofType="com.site.mountain.entity.UserInfo"
+                    resultMap="com.site.mountain.dao.test1.UserInfoDao.AllColumnMap"></collection>
+        <collection property="permissions" columnPrefix="p_"
+                    ofType="com.site.mountain.entity.SysPermission"
+                    resultMap="com.site.mountain.dao.test1.SysPermissionDao.AllColumnMap"></collection>
+    </resultMap>
+
+    <select id="findRoleList" parameterType="com.site.mountain.entity.SysRole" resultMap="roleUserPermissionMap">
+        SELECT r.*,
+        p.id p_id,
+        p.`name` p_name,
+        p.available p_available,
+        p.parent_id p_parent_id ,
+        p.parent_ids p_parent_ids,
+        p.permission p_permission,
+        p.resource_type p_resource_type,
+        p.url p_url,
+        u.*
+        FROM sys_role r,sys_user_role ur,user_info u,sys_role_permission rp,sys_permission p
+        <where>
+            <if test="1==1">
+                AND r.id = ur.role_id and ur.uid = u.uid and rp.permission_id = p.id and rp.role_id = r.id
+            </if>
+        </where>
+    </select>
+
+    <!--auto generated Code-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.id">
+        INSERT INTO sys_role (
+            `id`,
+            `role`,
+            `description`,
+            `available`
+        ) VALUES (
+            #{pojo.id},
+            #{pojo.role},
+            #{pojo.description},
+            #{pojo.available}
+        )
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.id">
+        INSERT INTO sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id!=null"> `id`,</if>
+            <if test="pojo.role!=null"> `role`,</if>
+            <if test="pojo.description!=null"> `description`,</if>
+            <if test="pojo.available!=null"> `available`,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id!=null">#{pojo.id},</if>
+            <if test="pojo.role!=null">#{pojo.role},</if>
+            <if test="pojo.description!=null">#{pojo.description},</if>
+            <if test="pojo.available!=null">#{pojo.available},</if>
+        </trim>
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO sys_role (
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.id},
+            #{pojo.role},
+            #{pojo.description},
+            #{pojo.available}
+            )
+        </foreach>
+    </insert>
+
+    <!--auto generated Code-->
+    <update id="update">
+        UPDATE sys_role
+        <set>
+            <if test="pojo.id != null"> `id` = #{pojo.id}, </if>
+            <if test="pojo.role != null"> `role` = #{pojo.role}, </if>
+            <if test="pojo.description != null"> `description` = #{pojo.description}, </if>
+            <if test="pojo.available != null"> `available` = #{pojo.available} </if>
+        </set>
+        WHERE id = #{pojo.id}
+    </update>
+</mapper>
+

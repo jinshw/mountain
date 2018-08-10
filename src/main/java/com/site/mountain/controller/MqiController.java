@@ -29,4 +29,18 @@ public class MqiController {
         System.out.print(list.size());
         return list;
     }
+    @RequestMapping("/find2")
+    @ResponseBody
+    public List findMQI2() {
+        List list = mqiSerivce.findList2();
+        System.out.print(list.size());
+        return list;
+    }
+    @RequestMapping("/oracle")
+    @ResponseBody
+    public List findOracle() {
+        List list = mqiSerivce.findListByOracle();
+        System.out.print(list.size());
+        return list;
+    }
 }
