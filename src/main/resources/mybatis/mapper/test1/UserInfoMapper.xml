@@ -20,7 +20,7 @@
                     resultMap="com.site.mountain.dao.test1.SysPermissionDao.AllColumnMap">
         </collection>
     </resultMap>
-    <select id="selectAllUserAndRoles" parameterType="com.site.mountain.entity.UserInfo"
+    <select id="selectAllMenuAndRoles" parameterType="com.site.mountain.entity.SysUser"
             resultMap="userRoleListMap">
         SELECT u.*,
         r.id role_id,
@@ -73,6 +73,17 @@
             #{pojo.password},
             #{pojo.salt},
             #{pojo.state}
+        )
+    </insert>
+    <insert id="add" useGeneratedKeys="true" keyProperty="pojo.uid">
+        INSERT INTO user_info (
+            `username`,
+            `name`,
+            `password`
+        ) VALUES (
+            #{pojo.username},
+            #{pojo.name},
+            #{pojo.password}
         )
     </insert>
 
@@ -134,6 +145,18 @@
         select
         <include refid="all_column"/>
         from user_info
+        <where>
+            <if test="name != null and name != ''">
+              AND name = #{name}
+            </if>
+            <if test="username != null and username != ''">
+                <bind name="pattern" value="'%' + username + '%'" />
+                AND username LIKE  #{pattern}
+            </if>
+        </where>
     </select>
+    <delete id="delete" parameterType="com.site.mountain.entity.UserInfo">
+        DELETE from user_info where uid = #{uid}
+    </delete>
 </mapper>
 

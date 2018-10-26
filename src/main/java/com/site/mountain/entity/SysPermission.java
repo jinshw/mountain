@@ -1,6 +1,7 @@
 package com.site.mountain.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SysPermission implements Serializable {
@@ -13,6 +14,15 @@ public class SysPermission implements Serializable {
     private String parentIds; //父编号列表
     private Boolean available = Boolean.FALSE;
     private List<SysRole> roles;
+    private List<SysPermission> children = new ArrayList<>();
+
+    public List<SysPermission> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<SysPermission> children) {
+        this.children = children;
+    }
 
     public List<SysRole> getRoles() {
         return roles;

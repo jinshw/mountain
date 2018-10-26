@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.site.mountain.dao.mysql.SysRoleDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysRole">
+		<result column="role_id" property="roleId"/>
+		<result column="role_name" property="roleName"/>
+		<result column="remark" property="remark"/>
+		<result column="dept_id" property="deptId"/>
+		<result column="create_time" property="createTime"/>
+
+    </resultMap>
+
+    <sql id="all_column">
+		`role_id`,
+		`role_name`,
+		`remark`,
+		`dept_id`,
+		`create_time`
+
+    </sql>
+
+    <insert id="insertSelective">
+	INSERT INTO sys_role (
+		`role_id`,
+		`role_name`,
+		`remark`,
+		`dept_id`,
+		`create_time`,
+
+	) VALUES ( 
+		#{pojo.roleId},
+		#{pojo.roleName},
+		#{pojo.remark},
+		#{pojo.deptId},
+		#{pojo.createTime},
+	) 
+
+    </insert>
+
+    <!--有条件插入-->
+    <insert id="insert">
+        INSERT INTO sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.roleId!=null">`role_id`,</if> 
+			<if test="pojo.roleName!=null">`role_name`,</if> 
+			<if test="pojo.remark!=null">`remark`,</if> 
+			<if test="pojo.deptId!=null">`dept_id`,</if> 
+			<if test="pojo.createTime!=null">`create_time`,</if> 
+
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.roleId!=null">#{pojo.roleId},</if> 
+			<if test="pojo.roleName!=null">#{pojo.roleName},</if> 
+			<if test="pojo.remark!=null">#{pojo.remark},</if> 
+			<if test="pojo.deptId!=null">#{pojo.deptId},</if> 
+			<if test="pojo.createTime!=null">#{pojo.createTime},</if> 
+
+        </trim>
+    </insert>
+
+    <select id="findList" parameterType="com.site.mountain.entity.SysRole" resultMap="AllColumnMap">
+        select
+        <include refid="all_column"/>
+        from sys_role
+        <where>
+			<if test="roleId != null and roleId != ''">AND role_id = #{roleId}</if>
+			<if test="roleName != null and roleName != ''">AND role_name = #{roleName}</if>
+			<if test="remark != null and remark != ''">AND remark = #{remark}</if>
+			<if test="deptId != null and deptId != ''">AND dept_id = #{deptId}</if>
+			<if test="createTime != null and createTime != ''">AND create_time = #{createTime}</if>
+
+        </where>
+    </select>
+
+    <delete id="delete" parameterType="com.site.mountain.entity.SysRole">
+        DELETE from sys_role
+        <where>
+			<if test="roleId != null and roleId != ''">AND role_id = #{roleId}</if>
+			<if test="roleName != null and roleName != ''">AND role_name = #{roleName}</if>
+			<if test="remark != null and remark != ''">AND remark = #{remark}</if>
+			<if test="deptId != null and deptId != ''">AND dept_id = #{deptId}</if>
+			<if test="createTime != null and createTime != ''">AND create_time = #{createTime}</if>
+
+        </where>
+    </delete>
+
+
+</mapper>
+

@@ -1,8 +1,7 @@
 package com.site.mountain.config;
 
-import com.site.mountain.entity.SysPermission;
-import com.site.mountain.entity.SysRole;
-import com.site.mountain.entity.UserInfo;
+import com.site.mountain.entity.*;
+import com.site.mountain.service.SysUserService;
 import com.site.mountain.service.UserInfoService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -22,19 +21,19 @@ public class MyShiroRealm extends AuthorizingRealm {
 //    private ILoginService loginService;
 
     @Autowired
-    private UserInfoService userInfoService;
+    private SysUserService sysUserService;
 
     //角色权限和对应权限添加
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         //获取登录用户名
         String name = (String) principalCollection.getPrimaryPrincipal();
-        UserInfo user = new UserInfo();
-        user.setName(name);
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername(name);
         //查询用户名称
 //        User user = loginService.findByName(name);
-        List<UserInfo> list = userInfoService.selectAllUserAndRoles(user);
-        UserInfo userInfo = null;
+        List<SysUser> list = sysUserService.selectAllUserAndRoles(sysUser);
+        SysUser userInfo = null;
         if(list.size() != 0){
             userInfo = list.get(0);
         }
@@ -43,12 +42,12 @@ public class MyShiroRealm extends AuthorizingRealm {
         for (SysRole role : userInfo.getRoleList()) {
 //        for (Role role : user.getRoles()) {
             //添加角色
-            simpleAuthorizationInfo.addRole(role.getRole());
+            simpleAuthorizationInfo.addRole(role.getRoleName());
 //            simpleAuthorizationInfo.addRole(role.getRoleName());
-            for (SysPermission permission : userInfo.getPermissions()) {
+            for (SysMenu sysMenu : userInfo.getMenuList()) {
 //            for (Permission permission : role.getPermissions()) {
                 //添加权限
-                simpleAuthorizationInfo.addStringPermission(permission.getPermission());
+                simpleAuthorizationInfo.addStringPermission(sysMenu.getPerms());
             }
         }
         return simpleAuthorizationInfo;
@@ -63,11 +62,10 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         //获取用户信息
         String name = authenticationToken.getPrincipal().toString();
-//        User user = loginService.findByName(name);
-        UserInfo user = new UserInfo();
-        user.setUsername(name);
-        List<UserInfo> list = userInfoService.selectAllUserAndRoles(user);
-        UserInfo userInfo = null;
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername(name);
+        List<SysUser> list = sysUserService.selectAllUserAndRoles(sysUser);
+        SysUser userInfo = null;
         if(list.size() != 0){
             userInfo = list.get(0);
         }
@@ -79,5 +77,6 @@ public class MyShiroRealm extends AuthorizingRealm {
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, userInfo.getPassword().toString(), getName());
             return simpleAuthenticationInfo;
         }
+
     }
 }

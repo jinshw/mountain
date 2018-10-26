@@ -17,4 +17,10 @@ public interface SysPermissionDao {
     int update(@Param("pojo") SysPermission pojo);
 
     List<SysPermission> findList(SysPermission sysPermission);
+
+    int delete(SysPermission sysPermission);
+
+    List<SysPermission> selectByPid(SysPermission sysPermission);
+
+    SysPermission selectByid(Integer id);
 }

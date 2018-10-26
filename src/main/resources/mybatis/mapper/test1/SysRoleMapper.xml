@@ -47,12 +47,10 @@
     <!--auto generated Code-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.id">
         INSERT INTO sys_role (
-            `id`,
             `role`,
             `description`,
             `available`
         ) VALUES (
-            #{pojo.id},
             #{pojo.role},
             #{pojo.description},
             #{pojo.available}
@@ -103,5 +101,28 @@
         </set>
         WHERE id = #{pojo.id}
     </update>
+    <select id="find" parameterType="com.site.mountain.entity.SysRole" resultMap="AllColumnMap">
+        SELECT
+        <include refid="all_column"/>
+        FROM sys_role
+        <where>
+            <if test="role != null and role != ''">
+                <bind name="pattern" value="'%' + role + '%'"></bind>
+                AND role LIKE #{pattern}
+            </if>
+            <if test="description != null and description != ''">
+                AND description = #{description}
+            </if>
+            <if test="available != null">
+                AND available = #{available}
+            </if>
+        </where>
+
+    </select>
+
+    <delete id="delete" parameterType="com.site.mountain.entity.SysRole">
+        DELETE from sys_role where id = #{id}
+    </delete>
+
 </mapper>
 

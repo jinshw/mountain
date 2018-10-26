@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.site.mountain.dao.mysql.SysMenuDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysMenu">
+		<result column="menu_id" property="menuId"/>
+		<result column="parent_id" property="parentId"/>
+		<result column="name" property="name"/>
+		<result column="url" property="url"/>
+		<result column="perms" property="perms"/>
+		<result column="type" property="type"/>
+		<result column="icon" property="icon"/>
+		<result column="order_num" property="orderNum"/>
+
+    </resultMap>
+
+    <sql id="all_column">
+		`menu_id`,
+		`parent_id`,
+		`name`,
+		`url`,
+		`perms`,
+		`type`,
+		`icon`,
+		`order_num`,
+
+    </sql>
+
+    <insert id="insertSelective">
+	INSERT INTO sys_menu (
+		`menu_id`,
+		`parent_id`,
+		`name`,
+		`url`,
+		`perms`,
+		`type`,
+		`icon`,
+		`order_num`,
+
+	) VALUES ( 
+		#{pojo.menuId},
+		#{pojo.parentId},
+		#{pojo.name},
+		#{pojo.url},
+		#{pojo.perms},
+		#{pojo.type},
+		#{pojo.icon},
+		#{pojo.orderNum},
+	) 
+
+    </insert>
+
+    <!--有条件插入-->
+    <insert id="insert">
+        INSERT INTO sys_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.menuId!=null">`menu_id`,</if> 
+			<if test="pojo.parentId!=null">`parent_id`,</if> 
+			<if test="pojo.name!=null">`name`,</if> 
+			<if test="pojo.url!=null">`url`,</if> 
+			<if test="pojo.perms!=null">`perms`,</if> 
+			<if test="pojo.type!=null">`type`,</if> 
+			<if test="pojo.icon!=null">`icon`,</if> 
+			<if test="pojo.orderNum!=null">`order_num`,</if> 
+
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.menuId!=null">#{pojo.menuId},</if> 
+			<if test="pojo.parentId!=null">#{pojo.parentId},</if> 
+			<if test="pojo.name!=null">#{pojo.name},</if> 
+			<if test="pojo.url!=null">#{pojo.url},</if> 
+			<if test="pojo.perms!=null">#{pojo.perms},</if> 
+			<if test="pojo.type!=null">#{pojo.type},</if> 
+			<if test="pojo.icon!=null">#{pojo.icon},</if> 
+			<if test="pojo.orderNum!=null">#{pojo.orderNum},</if> 
+
+        </trim>
+    </insert>
+
+    <select id="findList" parameterType="com.site.mountain.entity.SysMenu" resultMap="AllColumnMap">
+        select
+        <include refid="all_column"/>
+        from sys_menu
+        <where>
+			<if test="menuId != null">AND name = #{menu_id}</if>
+			<if test="parentId != null">AND name = #{parent_id}</if>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="url != null">AND name = #{url}</if>
+			<if test="perms != null">AND name = #{perms}</if>
+			<if test="type != null">AND name = #{type}</if>
+			<if test="icon != null">AND name = #{icon}</if>
+			<if test="orderNum != null">AND name = #{order_num}</if>
+
+        </where>
+    </select>
+
+    <delete id="delete" parameterType="com.site.mountain.entity.SysMenu">
+        DELETE from sys_menu
+        <where>
+			<if test="menuId != null">AND name = #{menu_id}</if>
+			<if test="parentId != null">AND name = #{parent_id}</if>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="url != null">AND name = #{url}</if>
+			<if test="perms != null">AND name = #{perms}</if>
+			<if test="type != null">AND name = #{type}</if>
+			<if test="icon != null">AND name = #{icon}</if>
+			<if test="orderNum != null">AND name = #{order_num}</if>
+
+        </where>
+    </delete>
+
+
+</mapper>
+

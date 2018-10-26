@@ -1,5 +1,6 @@
 package com.site.mountain.service.impl;
 
+import com.site.mountain.entity.User;
 import com.site.mountain.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userInfoDao.insert(pojo);
     }
 
+    public int add(UserInfo pojo) {
+        return userInfoDao.add(pojo);
+    }
+
     public int insertSelective(UserInfo pojo) {
         return userInfoDao.insertSelective(pojo);
     }
@@ -37,6 +42,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     public List<UserInfo> selectAllUserAndRoles(UserInfo userInfo){
-        return userInfoDao.selectAllUserAndRoles(userInfo);
+//        return userInfoDao.selectAllUserAndRoles(userInfo);
+        return null;
+    }
+
+    public int delete(UserInfo userInfo){
+        return userInfoDao.delete(userInfo);
     }
 }

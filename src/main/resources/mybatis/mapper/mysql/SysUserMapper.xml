@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.site.mountain.dao.mysql.SysUserDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysUser">
+		<result column="user_id" property="userId"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="email" property="email"/>
+		<result column="mobile" property="mobile"/>
+		<result column="status" property="status"/>
+		<result column="dept_id" property="deptId"/>
+		<result column="create_time" property="createTime"/>
+
+    </resultMap>
+
+    <sql id="all_column">
+		`user_id`,
+		`username`,
+		`password`,
+		`email`,
+		`mobile`,
+		`status`,
+		`dept_id`,
+		`create_time`
+
+    </sql>
+
+	<resultMap id="userRoleListMap" extends="AllColumnMap" type="com.site.mountain.entity.SysUser">
+		<collection property="roleList" columnPrefix="role_"
+					ofType="com.site.mountain.entity.SysRole"
+					resultMap="com.site.mountain.dao.mysql.SysRoleDao.AllColumnMap">
+		</collection>
+		<collection property="menuList" columnPrefix="m_"
+					ofType="com.site.mountain.entity.SysMenu"
+					resultMap="com.site.mountain.dao.mysql.SysMenuDao.AllColumnMap">
+		</collection>
+	</resultMap>
+
+	<select id="selectAllUserAndRoles" parameterType="com.site.mountain.entity.SysUser"
+			resultMap="userRoleListMap">
+		SELECT u.*,
+		r.role_id role_role_id,
+		r.role_name role_role_name,
+		r.remark role_remark,
+		r.dept_id role_dept_id,
+		m.menu_id m_menu_id,
+		m.parent_id m_parent_id,
+		m.`name` m_name,
+		m.url m_url,
+		m.perms m_perms,
+		m.type m_type,
+		m.icon m_icon,
+		m.order_num m_order_num
+		from sys_user u,sys_role r,sys_user_role ur,sys_menu m,sys_role_menu rm
+		<where>
+			<if test="1==1">
+				AND u.user_id = ur.user_id and r.role_id = ur.role_id and m.menu_id = rm.menu_id and r.role_id = rm.role_id
+			</if>
+			<if test="username != null and username != ''">
+				AND u.username = #{username}
+			</if>
+		</where>
+		-- where u.uid = ur.uid and r.id = ur.role_id
+	</select>
+
+	<insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.user_id">
+		INSERT INTO sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.userId!=null">`user_id`,</if>
+			<if test="pojo.username!=null">`username`,</if>
+			<if test="pojo.password!=null">`password`,</if>
+			<if test="pojo.email!=null">`email`,</if>
+			<if test="pojo.mobile!=null">`mobile`,</if>
+			<if test="pojo.status!=null">`status`,</if>
+			<if test="pojo.deptId!=null">`dept_id`,</if>
+			<if test="pojo.createTime!=null">`create_time`,</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.userId!=null">#{pojo.userId},</if>
+			<if test="pojo.username!=null">#{pojo.username},</if>
+			<if test="pojo.password!=null">#{pojo.password},</if>
+			<if test="pojo.email!=null">#{pojo.email},</if>
+			<if test="pojo.mobile!=null">#{pojo.mobile},</if>
+			<if test="pojo.status!=null">#{pojo.status},</if>
+			<if test="pojo.deptId!=null">#{pojo.deptId},</if>
+			<if test="pojo.createTime!=null">#{pojo.createTime},</if>
+		</trim>
+	</insert>
+
+
+    <!--有条件插入-->
+    <insert id="insert">
+        INSERT INTO sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.userId!=null">`user_id`,</if> 
+			<if test="pojo.username!=null">`username`,</if> 
+			<if test="pojo.password!=null">`password`,</if> 
+			<if test="pojo.email!=null">`email`,</if> 
+			<if test="pojo.mobile!=null">`mobile`,</if> 
+			<if test="pojo.status!=null">`status`,</if> 
+			<if test="pojo.deptId!=null">`dept_id`,</if> 
+			<if test="pojo.createTime!=null">`create_time`,</if> 
+
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.userId!=null">#{pojo.userId},</if> 
+			<if test="pojo.username!=null">#{pojo.username},</if> 
+			<if test="pojo.password!=null">#{pojo.password},</if> 
+			<if test="pojo.email!=null">#{pojo.email},</if> 
+			<if test="pojo.mobile!=null">#{pojo.mobile},</if> 
+			<if test="pojo.status!=null">#{pojo.status},</if> 
+			<if test="pojo.deptId!=null">#{pojo.deptId},</if> 
+			<if test="pojo.createTime!=null">#{pojo.createTime},</if> 
+
+        </trim>
+    </insert>
+
+    <select id="findList" parameterType="com.site.mountain.entity.SysUser" resultMap="AllColumnMap">
+        select
+        <include refid="all_column"/>
+        from sys_user
+        <where>
+			<if test="userId != null">AND user_id = #{userId}</if>
+			<if test="username != null and username != ''">
+				<bind name="pattern" value="'%' + username + '%'" />
+				AND username LIKE  #{pattern}
+			</if>
+        </where>
+    </select>
+
+
+    <delete id="delete" parameterType="com.site.mountain.entity.SysUser">
+        DELETE from sys_user
+        <where>
+			<if test="userId != null">AND user_id = #{userId}</if>
+			<if test="username != null">AND username = #{username}</if>
+			<if test="password != null">AND password = #{password}</if>
+			<if test="email != null">AND email = #{email}</if>
+			<if test="mobile != null">AND mobile = #{mobile}</if>
+			<if test="status != null">AND status = #{status}</if>
+			<if test="deptId != null">AND dept_id = #{deptId}</if>
+			<if test="createTime != null">AND create_time = #{createTime}</if>
+
+        </where>
+    </delete>
+
+
+</mapper>
+

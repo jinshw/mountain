@@ -26,3 +26,5 @@
 
 ### Log ###
 /catalina.base_IS_UNDEFINED/
+
+/src/main/resources/static/dist

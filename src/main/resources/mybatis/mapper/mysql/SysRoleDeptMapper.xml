@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.site.mountain.dao.mysql.SysRoleDeptDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysRoleDept">
+		<result column="id" property="id"/>
+		<result column="dept_id" property="deptId"/>
+		<result column="role_id" property="roleId"/>
+
+    </resultMap>
+
+    <sql id="all_column">
+		`id`,
+		`dept_id`,
+		`role_id`,
+
+    </sql>
+
+    <insert id="insertSelective">
+	INSERT INTO sys_role_dept (
+		`id`,
+		`dept_id`,
+		`role_id`,
+
+	) VALUES ( 
+		#{pojo.id},
+		#{pojo.deptId},
+		#{pojo.roleId},
+	) 
+
+    </insert>
+
+    <!--有条件插入-->
+    <insert id="insert">
+        INSERT INTO sys_role_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.id!=null">`id`,</if> 
+			<if test="pojo.deptId!=null">`dept_id`,</if> 
+			<if test="pojo.roleId!=null">`role_id`,</if> 
+
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.id!=null">#{pojo.id},</if> 
+			<if test="pojo.deptId!=null">#{pojo.deptId},</if> 
+			<if test="pojo.roleId!=null">#{pojo.roleId},</if> 
+
+        </trim>
+    </insert>
+
+    <select id="findList" parameterType="com.site.mountain.entity.SysRoleDept" resultMap="AllColumnMap">
+        select
+        <include refid="all_column"/>
+        from sys_role_dept
+        <where>
+			<if test="id != null">AND name = #{id}</if>
+			<if test="deptId != null">AND name = #{dept_id}</if>
+			<if test="roleId != null">AND name = #{role_id}</if>
+
+        </where>
+    </select>
+
+    <delete id="delete" parameterType="com.site.mountain.entity.SysRoleDept">
+        DELETE from sys_role_dept
+        <where>
+			<if test="id != null">AND name = #{id}</if>
+			<if test="deptId != null">AND name = #{dept_id}</if>
+			<if test="roleId != null">AND name = #{role_id}</if>
+
+        </where>
+    </delete>
+
+
+</mapper>
+

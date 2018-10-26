@@ -3,13 +3,15 @@ package com.site.mountain.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.site.mountain.entity.SysPermission;
 import com.site.mountain.entity.SysRole;
+import com.site.mountain.entity.SysUser;
 import com.site.mountain.entity.UserInfo;
 import com.site.mountain.service.SysPermissionService;
 import com.site.mountain.service.SysRoleService;
+import com.site.mountain.service.SysUserService;
 import com.site.mountain.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,15 +19,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
-//@CrossOrigin(origins = "http://127.0.0.1:8081")
-public class UserInfoController {
+@RequestMapping("/sysuser")
+public class SysUserInfoController {
 
     @Autowired
-    private UserInfoService userInfoService;
+    private SysUserService sysUserService;
 //    @Autowired
 //    private SysRoleService sysRoleService;
     @Autowired
@@ -34,8 +36,8 @@ public class UserInfoController {
     @RequestMapping(value = "allRoles", method = RequestMethod.GET)
     @ResponseBody
     public List findAllUserAndRoles(){
-        UserInfo userInfo = new UserInfo();
-        List list = userInfoService.selectAllUserAndRoles(userInfo);
+        SysUser sysUser = new SysUser();
+        List list = sysUserService.selectAllUserAndRoles(sysUser);
         return list;
     }
 
@@ -43,9 +45,9 @@ public class UserInfoController {
     @ResponseBody
     public List findList(HttpServletRequest request, HttpServletResponse response) {
         String searchText = request.getParameter("searchText");
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUsername(searchText);
-        List list = userInfoService.findList(userInfo);
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername(searchText);
+        List list = sysUserService.findList(sysUser);
         return list;
     }
 
@@ -65,14 +67,23 @@ public class UserInfoController {
     public void insert(HttpServletRequest request,HttpServletResponse response){
         JSONObject jsonObject = new JSONObject();
         String userName = request.getParameter("username");
-        String name = request.getParameter("name");
         String password = request.getParameter("password");
-        System.out.println("username="+userName+" name="+name+" password="+password);
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUsername(userName);
-        userInfo.setName(name);
-        userInfo.setPassword(password);
-        int flag = userInfoService.add(userInfo);
+        String email = request.getParameter("email");
+        String mobile = request.getParameter("mobile");
+        String status = request.getParameter("status");
+        String deptId = request.getParameter("deptId");
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername(userName);
+        sysUser.setPassword(password);
+        sysUser.setEmail(email);
+        sysUser.setMobile(mobile);
+        if(!StringUtils.isEmpty(status)){
+            sysUser.setStatus( Integer.valueOf(status));
+        }
+        if(!StringUtils.isEmpty(deptId)){
+            sysUser.setDeptId(new BigInteger(deptId));
+        }
+        int flag = sysUserService.insert(sysUser);
         System.out.println(flag);
         if(flag>0){
             jsonObject.put("status",200);
@@ -89,11 +100,15 @@ public class UserInfoController {
 
     @RequestMapping("delete")
     public void delete(HttpServletRequest request,HttpServletResponse response){
+        int flag = 0;
         JSONObject jsonObject = new JSONObject();
         String id = request.getParameter("id");
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUid(Integer.valueOf(id));
-        int flag = userInfoService.delete(userInfo);
+        SysUser sysUser = new SysUser();
+        if(!StringUtils.isEmpty(id)){
+            sysUser.setUserId(new BigInteger(id));
+            flag = sysUserService.delete(sysUser);
+        }
+
         if(flag > 0){
             jsonObject.put("status",200);
         }else {

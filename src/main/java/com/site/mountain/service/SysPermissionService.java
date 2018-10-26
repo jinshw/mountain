@@ -1,5 +1,6 @@
 package com.site.mountain.service;
 
+import com.site.mountain.entity.TreeNode;
 import com.site.mountain.entity.SysPermission;
 
 import java.util.List;
@@ -14,4 +15,8 @@ public interface SysPermissionService {
     public int update(SysPermission pojo);
 
     public List<SysPermission> findList(SysPermission sysPermission);
+
+    public int delete(SysPermission sysPermission);
+
+    public SysPermission getMenuTree(Integer id);
 }

@@ -1,62 +1,47 @@
 package com.site.mountain.entity;
+import java.io.Serializable;
+import java.math.BigInteger;
+import java.lang.String;
+import java.sql.Timestamp;
 
-import java.util.List;
 
-public class SysRole {
-    private Integer id; // 编号
-    private String role; // 角色标识程序中判断使用,如"admin",这个是唯一的:
-    private String description; // 角色描述,UI界面显示使用
-    private Boolean available = Boolean.FALSE; // 是否可用,如果不可用将不会添加给用户
-    //角色 -- 权限关系：多对多关系;
-    private List<SysPermission> permissions;
-    // 用户 - 角色关系定义;
-    private List<UserInfo> userInfos;// 一个角色对应多个用户
+public class SysRole implements Serializable {
+    private BigInteger roleId;
+    private String roleName;
+    private String remark;
+    private BigInteger deptId;
+    private Timestamp createTime;
 
-    public Integer getId() {
-        return id;
+    public BigInteger getRoleId() {
+        return roleId;
+    }
+    public String getRoleName() {
+        return roleName;
+    }
+    public String getRemark() {
+        return remark;
+    }
+    public BigInteger getDeptId() {
+        return deptId;
+    }
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setRoleId(BigInteger roleId) {
+        this.roleId = roleId;
+    }
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+    public void setDeptId(BigInteger deptId) {
+        this.deptId = deptId;
+    }
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Boolean getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
-
-    public List<SysPermission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<SysPermission> permissions) {
-        this.permissions = permissions;
-    }
-
-    public List<UserInfo> getUserInfos() {
-        return userInfos;
-    }
-
-    public void setUserInfos(List<UserInfo> userInfos) {
-        this.userInfos = userInfos;
-    }
 }

@@ -33,19 +33,28 @@
     
     <select id="findList" parameterType="com.site.mountain.entity.SysPermission"
         resultMap="premissionRoleMap">
-        SELECT p.*,
-        r.id r_id,
-        r.role r_role,
-        r.available r_available,
-        r.description r_description
-        FROM sys_permission p,sys_role_permission rp,sys_role r
-        where p.id = rp.permission_id and r.id = rp.role_id
+        SELECT
+        <include refid="all_column"/>
+        FROM sys_permission
+    </select>
+    <select id="selectByPid" parameterType="com.site.mountain.entity.SysPermission"
+            resultMap="AllColumnMap">
+        SELECT
+        <include refid="all_column"></include>
+        FROM sys_permission
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="parentId != null">
+                AND parent_id = #{parentId}
+            </if>
+        </where>
     </select>
 
     <!--auto generated Code-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.id">
         INSERT INTO sys_permission (
-            `id`,
             `name`,
             `resource_type`,
             `url`,
@@ -54,7 +63,6 @@
             `parent_ids`,
             `available`
         ) VALUES (
-            #{pojo.id},
             #{pojo.name},
             #{pojo.resourceType},
             #{pojo.url},
@@ -125,5 +133,18 @@
         </set>
         WHERE id = #{pojo.id}
     </update>
+    <delete id="delete" parameterType="com.site.mountain.entity.SysPermission">
+        DELETE from sys_permission where id = #{id}
+    </delete>
+
+    <select id="selectByid" parameterType="java.lang.Integer"
+            resultMap="AllColumnMap">
+        SELECT
+        <include refid="all_column"></include>
+        FROM sys_permission
+        where id = #{id}
+    </select>
+
+
 </mapper>
 

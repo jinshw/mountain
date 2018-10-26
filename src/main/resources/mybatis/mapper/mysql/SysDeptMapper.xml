@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.site.mountain.dao.mysql.SysDeptDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysDept">
+		<result column="dept_id" property="deptId"/>
+		<result column="parent_id" property="parentId"/>
+		<result column="name" property="name"/>
+		<result column="order_num" property="orderNum"/>
+		<result column="del_flag" property="delFlag"/>
+
+    </resultMap>
+
+    <sql id="all_column">
+		`dept_id`,
+		`parent_id`,
+		`name`,
+		`order_num`,
+		`del_flag`,
+
+    </sql>
+
+    <insert id="insertSelective">
+	INSERT INTO sys_dept (
+		`dept_id`,
+		`parent_id`,
+		`name`,
+		`order_num`,
+		`del_flag`,
+
+	) VALUES ( 
+		#{pojo.deptId},
+		#{pojo.parentId},
+		#{pojo.name},
+		#{pojo.orderNum},
+		#{pojo.delFlag},
+	) 
+
+    </insert>
+
+    <!--有条件插入-->
+    <insert id="insert">
+        INSERT INTO sys_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.deptId!=null">`dept_id`,</if> 
+			<if test="pojo.parentId!=null">`parent_id`,</if> 
+			<if test="pojo.name!=null">`name`,</if> 
+			<if test="pojo.orderNum!=null">`order_num`,</if> 
+			<if test="pojo.delFlag!=null">`del_flag`,</if> 
+
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pojo.deptId!=null">#{pojo.deptId},</if> 
+			<if test="pojo.parentId!=null">#{pojo.parentId},</if> 
+			<if test="pojo.name!=null">#{pojo.name},</if> 
+			<if test="pojo.orderNum!=null">#{pojo.orderNum},</if> 
+			<if test="pojo.delFlag!=null">#{pojo.delFlag},</if> 
+
+        </trim>
+    </insert>
+
+    <select id="findList" parameterType="com.site.mountain.entity.SysDept" resultMap="AllColumnMap">
+        select
+        <include refid="all_column"/>
+        from sys_dept
+        <where>
+			<if test="deptId != null">AND name = #{dept_id}</if>
+			<if test="parentId != null">AND name = #{parent_id}</if>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="orderNum != null">AND name = #{order_num}</if>
+			<if test="delFlag != null">AND name = #{del_flag}</if>
+
+        </where>
+    </select>
+
+    <delete id="delete" parameterType="com.site.mountain.entity.SysDept">
+        DELETE from sys_dept
+        <where>
+			<if test="deptId != null">AND name = #{dept_id}</if>
+			<if test="parentId != null">AND name = #{parent_id}</if>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="orderNum != null">AND name = #{order_num}</if>
+			<if test="delFlag != null">AND name = #{del_flag}</if>
+
+        </where>
+    </delete>
+
+
+</mapper>
+
