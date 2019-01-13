@@ -48,6 +48,13 @@ public class ShiroConfig {
         map.put("/logout", "logout");
         //对所有用户认证
         map.put("/**", "authc");
+
+        //start--swagger 访问设置
+        map.put("/swagger-ui.html", "anon");
+        map.put("/swagger-resources", "anon");
+        map.put("/v2/api-docs", "anon");
+        map.put("/webjars/springfox-swagger-ui/**", "anon");
+
         //登录
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setLoginUrl("/loginCross");
