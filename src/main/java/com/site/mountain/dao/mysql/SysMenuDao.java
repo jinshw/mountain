@@ -1,12 +1,16 @@
 package com.site.mountain.dao.mysql;
 
-import java.util.List;
 import com.site.mountain.entity.SysMenu;
+import org.apache.ibatis.annotations.Param;
+
+import java.math.BigInteger;
+import java.util.List;
 
 public interface SysMenuDao {
-    int insert(SysMenu pojo);
-    int insertSelective(List<SysMenu> pojo);
-    List<String> findList(SysMenu pojo);
+    int insert(@Param("pojo") SysMenu pojo);
+    int insertSelective(SysMenu pojo);
+    List<SysMenu> findList(SysMenu pojo);
     int delete(SysMenu pojo);
-
+    List<SysMenu> selectByPid(SysMenu sysMenu);
+    SysMenu selectByid(BigInteger id);
 }

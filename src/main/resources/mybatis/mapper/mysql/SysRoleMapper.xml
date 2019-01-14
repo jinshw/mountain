@@ -72,6 +72,7 @@
 			<if test="createTime != null and createTime != ''">AND create_time = #{createTime}</if>
 
         </where>
+		order by create_time desc
     </select>
 
     <delete id="delete" parameterType="com.site.mountain.entity.SysRole">

@@ -1,4 +1,4 @@
-package com.site.mountain.controller;
+package com.site.mountain.controller.sys;
 
 import com.alibaba.fastjson.JSONObject;
 import com.site.mountain.entity.SysPermission;
@@ -12,6 +12,7 @@ import com.site.mountain.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -107,6 +108,31 @@ public class SysUserInfoController {
         if(!StringUtils.isEmpty(id)){
             sysUser.setUserId(new BigInteger(id));
             flag = sysUserService.delete(sysUser);
+        }
+
+        if(flag > 0){
+            jsonObject.put("status",200);
+        }else {
+            jsonObject.put("status",500);
+        }
+        try {
+            response.getWriter().print(jsonObject.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @RequestMapping("update")
+    public void update(HttpServletRequest request,HttpServletResponse response,@ModelAttribute SysUser user){
+        int flag = 0;
+
+
+        JSONObject jsonObject = new JSONObject();
+        String id = request.getParameter("id");
+
+        SysUser sysUser = new SysUser();
+        if(!StringUtils.isEmpty(id)){
+            sysUser.setUserId(new BigInteger(id));
+            flag = sysUserService.update(sysUser);
         }
 
         if(flag > 0){

@@ -14,4 +14,6 @@ public interface SysUserService {
     public List<SysUser> selectAllUserAndRoles(SysUser SysUser);
 
     public int delete(SysUser SysUser);
+
+    public int update(SysUser sysUser);
 }

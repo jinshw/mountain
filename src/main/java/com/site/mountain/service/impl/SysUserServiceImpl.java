@@ -33,4 +33,8 @@ public class SysUserServiceImpl implements SysUserService {
     public int delete(SysUser SysUser){
         return sysUserDao.delete(SysUser);
     }
+
+    public int update(SysUser sysUser){
+        return  sysUserDao.update(sysUser);
+    }
 }

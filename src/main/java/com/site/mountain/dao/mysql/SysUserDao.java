@@ -13,4 +13,5 @@ public interface SysUserDao {
     List<String> findList(SysUser pojo);
     int delete( SysUser pojo);
     List<SysUser> selectAllUserAndRoles( SysUser sysUser);
+    int update(@Param("pojo") SysUser projo);
 }

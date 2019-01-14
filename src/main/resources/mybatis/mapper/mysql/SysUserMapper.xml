@@ -61,6 +61,7 @@
 				AND u.username = #{username}
 			</if>
 		</where>
+		order by username asc
 		-- where u.uid = ur.uid and r.id = ur.role_id
 	</select>
 
@@ -129,6 +130,7 @@
 				AND username LIKE  #{pattern}
 			</if>
         </where>
+		order by username asc
     </select>
 
 
@@ -146,6 +148,18 @@
 
         </where>
     </delete>
+
+	<update id="update">
+		UPDATE sys_user
+		<set>
+			<if test="pojo.username != null">`username` = #{pojo.username},</if>
+			<if test="pojo.password != null">`password` = #{pojo.password},</if>
+			<if test="pojo.email != null">`email` = #{pojo.email},</if>
+			<if test="pojo.mobile != null">`salt` = #{pojo.mobile},</if>
+			<if test="pojo.status != null">`state` = #{pojo.status}</if>
+		</set>
+		WHERE user_id = #{pojo.userId}
+	</update>
 
 
 </mapper>

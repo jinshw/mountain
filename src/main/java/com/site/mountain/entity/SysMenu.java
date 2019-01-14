@@ -1,8 +1,8 @@
 package com.site.mountain.entity;
+
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.lang.String;
-import java.lang.Integer;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,6 +15,17 @@ public class SysMenu implements Serializable {
     private Integer type;
     private String icon;
     private Integer orderNum;
+
+    private List<SysMenu> children = new ArrayList<>();
+
+
+    public List<SysMenu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<SysMenu> children) {
+        this.children = children;
+    }
 
     private List<SysRole> roles;
 

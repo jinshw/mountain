@@ -22,8 +22,7 @@
 		`perms`,
 		`type`,
 		`icon`,
-		`order_num`,
-
+		`order_num`
     </sql>
 
     <insert id="insertSelective">
@@ -93,22 +92,46 @@
 			<if test="orderNum != null">AND name = #{order_num}</if>
 
         </where>
+		order by order_num asc
     </select>
 
     <delete id="delete" parameterType="com.site.mountain.entity.SysMenu">
         DELETE from sys_menu
         <where>
-			<if test="menuId != null">AND name = #{menu_id}</if>
-			<if test="parentId != null">AND name = #{parent_id}</if>
+			<if test="menuId != null">AND menu_id = #{menuId}</if>
+			<if test="parentId != null">AND parent_id = #{parentId}</if>
 			<if test="name != null">AND name = #{name}</if>
-			<if test="url != null">AND name = #{url}</if>
-			<if test="perms != null">AND name = #{perms}</if>
-			<if test="type != null">AND name = #{type}</if>
-			<if test="icon != null">AND name = #{icon}</if>
-			<if test="orderNum != null">AND name = #{order_num}</if>
+			<if test="url != null">AND url = #{url}</if>
+			<if test="perms != null">AND perms = #{perms}</if>
+			<if test="type != null">AND type = #{type}</if>
+			<if test="icon != null">AND icon = #{icon}</if>
+			<if test="orderNum != null">AND order_num = #{orderNum}</if>
 
         </where>
     </delete>
+	<select id="selectByPid" parameterType="com.site.mountain.entity.SysMenu"
+			resultMap="AllColumnMap">
+		SELECT
+		<include refid="all_column"></include>
+		FROM sys_menu
+		<where>
+			<if test="menuId != null">
+				AND menu_id = #{menuId}
+			</if>
+			<if test="parentId != null">
+				AND parent_id = #{parentId}
+			</if>
+		</where>
+		order by order_num asc
+	</select>
+	<select id="selectByid" parameterType="java.math.BigInteger"
+			resultMap="AllColumnMap">
+		SELECT
+		<include refid="all_column"></include>
+		FROM sys_menu
+		where menu_id = #{menuId}
+		order by order_num asc
+	</select>
 
 
 </mapper>

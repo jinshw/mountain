@@ -1,4 +1,4 @@
-package com.site.mountain.controller;
+package com.site.mountain.controller.sys;
 
 import com.alibaba.fastjson.JSONObject;
 import com.site.mountain.entity.SysRole;
