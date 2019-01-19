@@ -1,6 +1,8 @@
 package com.site.mountain.config;
 
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.util.WebUtils;
@@ -18,12 +20,12 @@ public class MySessionManager extends DefaultWebSessionManager {
         String token = httpServletRequest.getHeader("token");
         System.out.println("token：" + token);
         String uri = httpServletRequest.getRequestURI();
+
         if (!StringUtils.isEmpty(token)) {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, "token");
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, token);
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
             return token;
-
         } else {
             return super.getSessionId(request, response);
         }

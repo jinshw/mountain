@@ -116,7 +116,9 @@ public class IndexController {
             //所以这一步在调用login(token)方法时,它会走到MyRealm.doGetAuthenticationInfo()方法中,具体验证方式详见此方法
             logger.info("对用户[" + username + "]进行登录验证..验证开始");
             currentUser.login(token);
-            sessionId = (String) currentUser.getSession().getId();
+            sessionId = request.getSession().getId();
+            request.getSession().setAttribute("user",sessionId);
+//            sessionId = (String) currentUser.getSession().getId();
             logger.info("对用户[" + username + "]进行登录验证..验证通过");
         } catch (UnknownAccountException uae) {
             logger.info("对用户[" + username + "]进行登录验证..验证未通过,未知账户");

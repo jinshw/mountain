@@ -9,8 +9,8 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
@@ -43,6 +43,7 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+
         Map<String, String> map = new HashMap<String, String>();
         //登出
         map.put("/logout", "logout");
@@ -55,6 +56,8 @@ public class ShiroConfig {
         map.put("/v2/api-docs", "anon");
         map.put("/webjars/springfox-swagger-ui/**", "anon");
 
+        map.put("/**","user");
+
         //登录
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setLoginUrl("/loginCross");
@@ -62,7 +65,9 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //错误页面，认证不通过跳转
         shiroFilterFactoryBean.setUnauthorizedUrl("/invalid");
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
+
         return shiroFilterFactoryBean;
     }
 
