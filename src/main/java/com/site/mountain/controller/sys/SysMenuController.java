@@ -53,6 +53,7 @@ public class SysMenuController {
         sysMenu.setType(Integer.valueOf(type));
         sysMenu.setUrl(url);
         sysMenu.setPerms(perms);
+
         if(!StringUtils.isEmpty(parentId)){
             sysMenu.setParentId(new BigInteger(parentId));
         }

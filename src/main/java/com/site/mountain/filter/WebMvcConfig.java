@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 拦截器
+ * 拦截器(现在没有用到)
  */
-@Configuration
+//@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     JSONObject jsonObject = new JSONObject();
     //不需要登录就可以访问的路径(比如:注册登录等)
-    String[] includeUrls = new String[]{"/mt/error", "/mt/loginCross"};
+    String[] includeUrls = new String[]{ "/mt/loginCross"};
 
 
     @Override
@@ -40,6 +40,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 System.out.println("webmvcconfig url:" + uri);
                 //是否需要过滤
                 boolean needFilter = isNeedFilter(uri);
+                if(uri.contains("loginCross") || uri.contains("/mt/error")){
+//                    response.sendRedirect("http://localhost:8081/mt/loginCross");
+                    jsonObject.put("code", 200);
+                    jsonObject.put("msg", "您还未登录");
+                    response.getWriter().write(jsonObject.toString());
+                }
+
                 try {
                     if (!needFilter) { //不需要过滤直接传给下一个过滤器
 

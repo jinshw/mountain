@@ -49,6 +49,8 @@ public class SysDeptController {
         sysDept.setName(name);
         if(!StringUtils.isEmpty(parentId)){
             sysDept.setParentId(new BigInteger(parentId));
+        }else{
+            sysDept.setParentId(new BigInteger("-1"));
         }
         if(!StringUtils.isEmpty(orderNum)){
             sysDept.setOrderNum(Integer.valueOf(orderNum));
