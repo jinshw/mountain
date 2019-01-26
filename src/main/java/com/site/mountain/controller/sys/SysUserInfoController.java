@@ -9,6 +9,7 @@ import com.site.mountain.service.SysPermissionService;
 import com.site.mountain.service.SysRoleService;
 import com.site.mountain.service.SysUserService;
 import com.site.mountain.service.UserInfoService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -42,6 +43,7 @@ public class SysUserInfoController {
         return list;
     }
 
+    @RequiresPermissions("userInfo:view22")
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
     public List findList(HttpServletRequest request, HttpServletResponse response) {
