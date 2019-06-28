@@ -1,4 +1,9 @@
 # mountain 工程
+## 更新日志20190628
+* 前端框架改为vue-admin-template
+* 后端springboot工程代码重构
+
+*****
 ## 集成
 * Spring Boot
 * Mybatis
