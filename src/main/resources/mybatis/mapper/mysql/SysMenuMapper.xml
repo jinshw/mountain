@@ -132,6 +132,12 @@
 		where menu_id = #{menuId}
 		order by order_num asc
 	</select>
+	<select id="selectByRoleId" parameterType="java.math.BigInteger"
+			resultMap="AllColumnMap">
+		SELECT m.* from sys_menu m,sys_role_menu rm
+		where m.menu_id = rm.menu_id
+		and rm.role_id = #{roleId}
+	</select>
 
 
 </mapper>

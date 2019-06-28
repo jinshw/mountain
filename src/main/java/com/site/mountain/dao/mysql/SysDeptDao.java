@@ -17,6 +17,8 @@ public interface SysDeptDao {
 
     List<SysDept> selectByPid(SysDept sysMenu);
 
+    List<SysDept> selectByRoleId(BigInteger id);
+
     SysDept selectByid(BigInteger id);
 
     int update(@Param("pojo") SysDept sysDept);

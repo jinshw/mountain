@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50624
-Source Host           : localhost:3306
+Source Server         : 127.0.0.1
+Source Server Version : 50726
+Source Host           : 127.0.0.1:3306
 Source Database       : mountain
 
 Target Server Type    : MYSQL
-Target Server Version : 50624
+Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2019-01-20 19:30:00
+Date: 2019-06-28 19:17:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,7 +26,7 @@ CREATE TABLE `sys_dept` (
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
   `del_flag` tinyint(4) DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
   PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -38,6 +38,12 @@ INSERT INTO `sys_dept` VALUES ('18', '-1', '中软国际', '0', '0');
 INSERT INTO `sys_dept` VALUES ('19', '-1', '东软集团', '0', '0');
 INSERT INTO `sys_dept` VALUES ('20', '19', '交通事业部', '0', '0');
 INSERT INTO `sys_dept` VALUES ('21', '18', '文化事业部', '0', '0');
+INSERT INTO `sys_dept` VALUES ('22', '1', '22222', '0', '0');
+INSERT INTO `sys_dept` VALUES ('23', '22', '33333', '0', '-1');
+INSERT INTO `sys_dept` VALUES ('24', '22', '33333', '0', '-1');
+INSERT INTO `sys_dept` VALUES ('25', '22', '55555555', '0', '-1');
+INSERT INTO `sys_dept` VALUES ('26', '22', '555', '0', '0');
+INSERT INTO `sys_dept` VALUES ('27', '26', '6666', '0', '-1');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -59,10 +65,10 @@ CREATE TABLE `sys_menu` (
 -- Records of sys_menu
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES ('-1', null, '一级菜单', null, null, '0', null, null);
-INSERT INTO `sys_menu` VALUES ('1', null, '菜单1', null, 'userInfo:view', null, null, null);
-INSERT INTO `sys_menu` VALUES ('14', '-1', '权限管理', '', '', '0', '', '0');
-INSERT INTO `sys_menu` VALUES ('16', '14', '菜单管理', '', '', '1', '', '4');
+INSERT INTO `sys_menu` VALUES ('14', '-1', '权限管理', '', 'userInfo:view22', '0', '', '0');
+INSERT INTO `sys_menu` VALUES ('16', '14', '菜单管理', '', 'userInfo:view', '1', '', '4');
 INSERT INTO `sys_menu` VALUES ('20', '14', '部门3333', '', '', '0', '', '0');
+INSERT INTO `sys_menu` VALUES ('21', '20', '111', '', '222', '2', '', '0');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -75,7 +81,7 @@ CREATE TABLE `sys_role` (
   `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_role
@@ -91,7 +97,7 @@ CREATE TABLE `sys_role_dept` (
   `dept_id` bigint(20) DEFAULT NULL,
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_role_dept
@@ -107,12 +113,14 @@ CREATE TABLE `sys_role_menu` (
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
 INSERT INTO `sys_role_menu` VALUES ('1', '1', '1');
+INSERT INTO `sys_role_menu` VALUES ('14', '1', '2');
+INSERT INTO `sys_role_menu` VALUES ('16', '1', '3');
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -128,14 +136,13 @@ CREATE TABLE `sys_user` (
   `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', '123456', 'jinshw@163.com', '15902223456', '1', null, '2018-10-23 17:33:29');
-INSERT INTO `sys_user` VALUES ('2', '1', '1', '1', '1', '1', null, null);
-INSERT INTO `sys_user` VALUES ('3', 'jinsw', 'jin6150090', 'jinsh', '15900032224', '1', null, null);
+INSERT INTO `sys_user` VALUES ('1', 'admin', '123456', null, null, null, null, '2019-06-23 16:24:38');
+INSERT INTO `sys_user` VALUES ('2', 'jinshw', 'jinshw', '', '', null, null, '2019-06-24 11:01:20');
 
 -- ----------------------------
 -- Table structure for sys_user_role

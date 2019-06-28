@@ -8,6 +8,7 @@ import com.site.mountain.service.SysPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,34 +32,37 @@ public class SysMenuController {
 
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
-    public List findList(HttpServletRequest request, HttpServletResponse response) {
-        String searchText = request.getParameter("searchText");
-        List list = sysMenuService.findList(new SysMenu());
-        return list;
+    public JSONObject findList(@RequestBody SysMenu sysMenu, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject jsonObject = new JSONObject();
+//        String searchText = request.getParameter("searchText");
+        List list = sysMenuService.findList(sysMenu);
+        jsonObject.put("code",20000);
+        jsonObject.put("data",list);
+        return jsonObject;
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public void insert(HttpServletRequest request, HttpServletResponse response) {
+    public void insert(@RequestBody SysMenu sysMenu, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
-        String name = request.getParameter("name");
-        String type = request.getParameter("type");
-        String url = request.getParameter("url");
-        String perms = request.getParameter("perms");
-        String parentId = request.getParameter("parentId");
-        String icon = request.getParameter("icon");
-        String orderNum = request.getParameter("orderNum");
+//        String name = request.getParameter("name");
+//        String type = request.getParameter("type");
+//        String url = request.getParameter("url");
+//        String perms = request.getParameter("perms");
+//        String parentId = request.getParameter("parentId");
+//        String icon = request.getParameter("icon");
+//        String orderNum = request.getParameter("orderNum");
+//
+//        SysMenu sysMenu = new SysMenu();
+//        sysMenu.setName(name);
+//        sysMenu.setType(Integer.valueOf(type));
+//        sysMenu.setUrl(url);
+//        sysMenu.setPerms(perms);
 
-        SysMenu sysMenu = new SysMenu();
-        sysMenu.setName(name);
-        sysMenu.setType(Integer.valueOf(type));
-        sysMenu.setUrl(url);
-        sysMenu.setPerms(perms);
-
-        if(!StringUtils.isEmpty(parentId)){
-            sysMenu.setParentId(new BigInteger(parentId));
-        }
-        sysMenu.setIcon(icon);
-        sysMenu.setOrderNum(Integer.valueOf(orderNum));
+//        if(!StringUtils.isEmpty(parentId)){
+//            sysMenu.setParentId(new BigInteger(parentId));
+//        }
+//        sysMenu.setIcon(icon);
+//        sysMenu.setOrderNum(Integer.valueOf(orderNum));
 
         int flag = sysMenuService.insert(sysMenu);
         System.out.println(flag);
@@ -67,22 +71,25 @@ public class SysMenuController {
         } else {
             jsonObject.put("status", 500);
         }
+        jsonObject.put("code", 20000);
         try {
             response.getWriter().print(jsonObject.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
+            jsonObject.put("code", 20001);
         }
     }
 
     @RequestMapping("delete")
-    public void delete(HttpServletRequest request, HttpServletResponse response) {
+    public void delete(@RequestBody SysMenu sysMenuParam, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
-        String id = request.getParameter("id");
+//        String id = request.getParameter("id");
+        BigInteger menuId = sysMenuParam.getMenuId();
         SysMenu tree = new SysMenu();
-        tree = sysMenuService.getMenuTree(new BigInteger(id));
+        tree = sysMenuService.getMenuTree(menuId);
         if(tree.getChildren().size() == 0){
             SysMenu sysMenu = new SysMenu();
-            sysMenu.setMenuId(new BigInteger(id));
+            sysMenu.setMenuId(menuId);
             int flag = sysMenuService.delete(sysMenu);
             if (flag > 0) {
                 jsonObject.put("status", 200);
@@ -92,21 +99,26 @@ public class SysMenuController {
         }else{
             jsonObject.put("status", 201);
         }
+        jsonObject.put("code", 20000);
         try {
             response.getWriter().print(jsonObject.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
+            jsonObject.put("code", 20001);
         }
     }
 
 
     @RequestMapping("getTree")
     @ResponseBody
-    public SysMenu getTree(HttpServletRequest request,HttpServletResponse response){
-        String menuId = request.getParameter("menuId");
+    public JSONObject getTree(@RequestBody SysMenu sysMenu, HttpServletRequest request,HttpServletResponse response){
+//        String menuId = request.getParameter("menuId");
+        JSONObject jsonObject = new JSONObject();
         SysMenu tree = new SysMenu();
-        tree = sysMenuService.getMenuTree(new BigInteger(menuId));
-        return tree;
+        tree = sysMenuService.getMenuTree(sysMenu.getMenuId());
+        jsonObject.put("code",20000);
+        jsonObject.put("data",tree);
+        return jsonObject;
     }
 
 }

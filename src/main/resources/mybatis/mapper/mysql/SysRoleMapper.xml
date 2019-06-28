@@ -8,7 +8,8 @@
 		<result column="remark" property="remark"/>
 		<result column="dept_id" property="deptId"/>
 		<result column="create_time" property="createTime"/>
-
+		<collection property="menus" column="role_id" select="com.site.mountain.dao.mysql.SysMenuDao.selectByRoleId" />
+		<collection property="depts" column="role_id" select="com.site.mountain.dao.mysql.SysDeptDao.selectByRoleId" />
     </resultMap>
 
     <sql id="all_column">
@@ -39,26 +40,40 @@
     </insert>
 
     <!--有条件插入-->
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="roleId" parameterType="com.site.mountain.entity.SysRole">
         INSERT INTO sys_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="pojo.roleId!=null">`role_id`,</if> 
-			<if test="pojo.roleName!=null">`role_name`,</if> 
-			<if test="pojo.remark!=null">`remark`,</if> 
-			<if test="pojo.deptId!=null">`dept_id`,</if> 
-			<if test="pojo.createTime!=null">`create_time`,</if> 
+			<if test="roleId!=null">`role_id`,</if>
+			<if test="roleName!=null">`role_name`,</if>
+			<if test="remark!=null">`remark`,</if>
+			<if test="deptId!=null">`dept_id`,</if>
+			<if test="1==1">`create_time`,</if>
 
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="pojo.roleId!=null">#{pojo.roleId},</if> 
-			<if test="pojo.roleName!=null">#{pojo.roleName},</if> 
-			<if test="pojo.remark!=null">#{pojo.remark},</if> 
-			<if test="pojo.deptId!=null">#{pojo.deptId},</if> 
-			<if test="pojo.createTime!=null">#{pojo.createTime},</if> 
+			<if test="roleId!=null">#{roleId},</if>
+			<if test="roleName!=null">#{roleName},</if>
+			<if test="remark!=null">#{remark},</if>
+			<if test="deptId!=null">#{deptId},</if>
+			<if test="1==1">SYSDATE(),</if>
 
         </trim>
     </insert>
+	<insert id="insertRoleAndMenu" parameterType="com.site.mountain.entity.SysRole">
+		insert into sys_role_menu (role_id,menu_id) values
+		<foreach collection="menus" item="menu" separator=",">
+			(#{roleId},#{menu.menuId})
+		</foreach>
+
+	</insert>
+	<insert id="insertRoleAndDept" parameterType="com.site.mountain.entity.SysRole">
+		insert into sys_role_dept (role_id,dept_id) values
+		<foreach collection="depts" item="dept" separator=",">
+			(#{roleId},#{dept.deptId})
+		</foreach>
+
+	</insert>
 
     <select id="findList" parameterType="com.site.mountain.entity.SysRole" resultMap="AllColumnMap">
         select
@@ -86,7 +101,20 @@
 
         </where>
     </delete>
+    <delete id="deleteRoleMenu" parameterType="com.site.mountain.entity.SysRole">
+        DELETE from sys_role_menu where role_id = #{roleId}
+    </delete>
+    <delete id="deleteRoleDept" parameterType="com.site.mountain.entity.SysRole">
+        DELETE from sys_role_dept where role_id = #{roleId}
+    </delete>
 
+	<update id="update" parameterType="com.site.mountain.entity.SysRole">
+		UPDATE sys_role
+		<set>
+			<if test="pojo.roleName != null">`role_name` = #{pojo.roleName}</if>
+		</set>
+		WHERE role_id = #{pojo.roleId}
+	</update>
 
 </mapper>
 

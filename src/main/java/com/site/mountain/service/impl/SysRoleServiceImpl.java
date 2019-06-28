@@ -5,40 +5,37 @@ import com.site.mountain.entity.SysRole;
 import com.site.mountain.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
+@Transactional
 public class SysRoleServiceImpl implements SysRoleService {
 
     @Autowired
     private SysRoleDao sysRoleDao;
 
     public int insert(SysRole pojo) {
-        return sysRoleDao.insert(pojo);
+        int flag = sysRoleDao.insert(pojo);
+        if (flag > 0) {
+            flag = sysRoleDao.insertRoleAndMenu(pojo);
+            flag = sysRoleDao.insertRoleAndDept(pojo);
+        }
+        return flag;
     }
 
-//    public int insertSelective(SysRole pojo) {
-//        return sysRoleDao.insertSelective(pojo);
-//    }
-//
-//    public int insertList(List<SysRole> pojos) {
-//        return sysRoleDao.insertList(pojos);
-//    }
-//
-//    public int update(SysRole pojo) {
-//        return sysRoleDao.update(pojo);
-//    }
-//
-//    public List<SysRole> findRoleList(SysRole sysRole) {
-//        return sysRoleDao.findRoleList(sysRole);
-//    }
-//
     public List<SysRole> find(SysRole sysRole) {
         return sysRoleDao.findList(sysRole);
     }
 
-    public int delete(SysRole sysRole){
-        return sysRoleDao.delete(sysRole);
+    public int delete(SysRole sysRole) {
+        int flag = sysRoleDao.delete(sysRole);
+        if (flag > 0) {
+            flag = sysRoleDao.deleteRoleMenu(sysRole);
+            flag = sysRoleDao.deleteRoleDept(sysRole);
+        }
+        return flag;
     }
 }

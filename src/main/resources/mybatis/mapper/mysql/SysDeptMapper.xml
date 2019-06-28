@@ -122,6 +122,11 @@
 		order by order_num asc
 	</select>
 
-
+	<select id="selectByRoleId" parameterType="java.math.BigInteger"
+			resultMap="AllColumnMap">
+		SELECT d.* from sys_dept d,sys_role_dept rd
+		where d.dept_id = rd.dept_id
+		and rd.role_id = #{roleId}
+	</select>
 </mapper>
 

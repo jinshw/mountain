@@ -98,7 +98,7 @@ public class IndexController {
         return mv;
     }
 
-    @RequestMapping(value = "/loginCross",method = RequestMethod.POST)
+    @RequestMapping(value = "/loginCross",method = {RequestMethod.POST})
     public void loginCross(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView();
         String sessionId = null;
@@ -139,21 +139,22 @@ public class IndexController {
             ae.printStackTrace();
         }
         //验证是否登录成功
-        if (currentUser.isAuthenticated()) {
-            logger.info("用户[" + username + "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
-            mv.setViewName("/index");
-        } else {
-            token.clear();
-            mv.setViewName("/login");
-        }
+//        if (currentUser.isAuthenticated()) {
+//            logger.info("用户[" + username + "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
+//            mv.setViewName("/index");
+//        } else {
+//            token.clear();
+//            mv.setViewName("/login");
+//        }
         Map map = new HashMap();
         map.put("uuid","1111");
-        map.put("token","1234235435");
+        map.put("token","admin-token");
         map.put("name","admin");
         map.put("sessionId",sessionId);
         JSONObject obj = new JSONObject();
 
         obj.put("data",map);
+        obj.put("code",20000);
         try {
             response.getWriter().print(obj.toJSONString());
         } catch (IOException e) {
@@ -167,11 +168,14 @@ public class IndexController {
      * @return 跳转到登录页面
      */
     @RequestMapping("logout")
-    public String logout(RedirectAttributes redirectAttributes) {
+    public JSONObject logout(RedirectAttributes redirectAttributes) {
         //使用权限管理工具进行用户的退出，跳出登录，给出提示信息
         SecurityUtils.getSubject().logout();
         redirectAttributes.addFlashAttribute("message", "您已安全退出");
-        return "redirect:/login";
+        JSONObject obj = new JSONObject();
+        obj.put("code",20000);
+        obj.put("message","success");
+        return obj;
     }
 
     @RequestMapping("invalid")

@@ -8,6 +8,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,23 +32,26 @@ public class SysRoleController {
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
     @RequiresPermissions("userInfo:view")
-    public List findList(HttpServletRequest request, HttpServletResponse response) {
+    public JSONObject findList(@RequestBody SysRole sysRole, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject jsonObject = new JSONObject();
         String searchText = request.getParameter("searchText");
-        SysRole sysRole = new SysRole();
-        sysRole.setRoleName(searchText);
+//        SysRole sysRole = new SysRole();
+//        sysRole.setRoleName(searchText);
         List list = sysRoleService.find(sysRole);
-        return list;
+        jsonObject.put("code",20000);
+        jsonObject.put("data",list);
+        return jsonObject;
     }
 
     @RequestMapping(value = "add",method = RequestMethod.POST)
-    public void insert(HttpServletRequest request,HttpServletResponse response){
+    public void insert(@RequestBody SysRole sysRole, HttpServletRequest request,HttpServletResponse response){
         JSONObject jsonObject = new JSONObject();
-        String roleName = request.getParameter("roleName");
-        String remark = request.getParameter("remark");
-        SysRole sysRole = new SysRole();
-        sysRole.setRoleName(roleName);
+//        String roleName = request.getParameter("roleName");
+//        String remark = request.getParameter("remark");
+//        SysRole sysRole = new SysRole();
+//        sysRole.setRoleName(roleName);
 //        sysRole.setAvailable(available);
-        sysRole.setRemark(remark);
+//        sysRole.setRemark(remark);
         int flag = sysRoleService.insert(sysRole);
         System.out.println(flag);
         if(flag>0){
@@ -55,7 +59,7 @@ public class SysRoleController {
         }else {
             jsonObject.put("status",500);
         }
-
+        jsonObject.put("code",20000);
         try {
             response.getWriter().print(jsonObject.toJSONString());
         } catch (IOException e) {
@@ -65,21 +69,23 @@ public class SysRoleController {
 
 
     @RequestMapping("delete")
-    public void delete(HttpServletRequest request,HttpServletResponse response){
+    public void delete(@RequestBody SysRole sysRole,HttpServletRequest request,HttpServletResponse response){
         int flag = 0;
         JSONObject jsonObject = new JSONObject();
-        String roleId = request.getParameter("roleId");
-        SysRole sysRole = new SysRole();
-        if(!StringUtils.isEmpty(roleId)){
-            sysRole.setRoleId(new BigInteger(roleId));
-            flag = sysRoleService.delete(sysRole);
-        }
+//        String roleId = request.getParameter("roleId");
+//        SysRole sysRole = new SysRole();
+//        if(!StringUtils.isEmpty(roleId)){
+//            sysRole.setRoleId(new BigInteger(roleId));
+//            flag = sysRoleService.delete(sysRole);
+//        }
+        flag = sysRoleService.delete(sysRole);
 
         if(flag > 0){
             jsonObject.put("status",200);
         }else {
             jsonObject.put("status",500);
         }
+        jsonObject.put("code",20000);
         try {
             response.getWriter().print(jsonObject.toJSONString());
         } catch (IOException e) {

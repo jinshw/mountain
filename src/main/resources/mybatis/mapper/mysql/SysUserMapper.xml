@@ -130,14 +130,14 @@
 				AND username LIKE  #{pattern}
 			</if>
         </where>
-		order by username asc
+		order by create_time desc
     </select>
 
 
     <delete id="delete" parameterType="com.site.mountain.entity.SysUser">
         DELETE from sys_user
         <where>
-			<if test="userId != null">AND user_id = #{userId}</if>
+			<if test="1==1">AND user_id = #{userId}</if>
 			<if test="username != null">AND username = #{username}</if>
 			<if test="password != null">AND password = #{password}</if>
 			<if test="email != null">AND email = #{email}</if>
