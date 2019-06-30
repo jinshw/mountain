@@ -3,13 +3,13 @@
 <mapper namespace="com.site.mountain.dao.mysql.SysRoleDao">
     <!--auto generated Code-->
     <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysRole">
-		<result column="role_id" property="roleId"/>
-		<result column="role_name" property="roleName"/>
-		<result column="remark" property="remark"/>
-		<result column="dept_id" property="deptId"/>
-		<result column="create_time" property="createTime"/>
-		<collection property="menus" column="role_id" select="com.site.mountain.dao.mysql.SysMenuDao.selectByRoleId" />
-		<collection property="depts" column="role_id" select="com.site.mountain.dao.mysql.SysDeptDao.selectByRoleId" />
+        <result column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+        <result column="remark" property="remark"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="create_time" property="createTime"/>
+        <collection property="menus" column="role_id" select="com.site.mountain.dao.mysql.SysMenuDao.selectByRoleId"/>
+        <collection property="depts" column="role_id" select="com.site.mountain.dao.mysql.SysDeptDao.selectByRoleId"/>
     </resultMap>
 
     <sql id="all_column">
@@ -43,61 +43,61 @@
     <insert id="insert" useGeneratedKeys="true" keyProperty="roleId" parameterType="com.site.mountain.entity.SysRole">
         INSERT INTO sys_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="roleId!=null">`role_id`,</if>
-			<if test="roleName!=null">`role_name`,</if>
-			<if test="remark!=null">`remark`,</if>
-			<if test="deptId!=null">`dept_id`,</if>
-			<if test="1==1">`create_time`,</if>
+            <if test="roleId!=null">`role_id`,</if>
+            <if test="roleName!=null">`role_name`,</if>
+            <if test="remark!=null">`remark`,</if>
+            <if test="deptId!=null">`dept_id`,</if>
+            <if test="1==1">`create_time`,</if>
 
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="roleId!=null">#{roleId},</if>
-			<if test="roleName!=null">#{roleName},</if>
-			<if test="remark!=null">#{remark},</if>
-			<if test="deptId!=null">#{deptId},</if>
-			<if test="1==1">SYSDATE(),</if>
+            <if test="roleId!=null">#{roleId},</if>
+            <if test="roleName!=null">#{roleName},</if>
+            <if test="remark!=null">#{remark},</if>
+            <if test="deptId!=null">#{deptId},</if>
+            <if test="1==1">SYSDATE(),</if>
 
         </trim>
     </insert>
-	<insert id="insertRoleAndMenu" parameterType="com.site.mountain.entity.SysRole">
-		insert into sys_role_menu (role_id,menu_id) values
-		<foreach collection="menus" item="menu" separator=",">
-			(#{roleId},#{menu.menuId})
-		</foreach>
+    <insert id="insertRoleAndMenu" parameterType="com.site.mountain.entity.SysRole">
+        insert into sys_role_menu (role_id,menu_id) values
+        <foreach collection="menus" item="menu" separator=",">
+            (#{roleId},#{menu.menuId})
+        </foreach>
 
-	</insert>
-	<insert id="insertRoleAndDept" parameterType="com.site.mountain.entity.SysRole">
-		insert into sys_role_dept (role_id,dept_id) values
-		<foreach collection="depts" item="dept" separator=",">
-			(#{roleId},#{dept.deptId})
-		</foreach>
+    </insert>
+    <insert id="insertRoleAndDept" parameterType="com.site.mountain.entity.SysRole">
+        insert into sys_role_dept (role_id,dept_id) values
+        <foreach collection="depts" item="dept" separator=",">
+            (#{roleId},#{dept.deptId})
+        </foreach>
 
-	</insert>
+    </insert>
 
     <select id="findList" parameterType="com.site.mountain.entity.SysRole" resultMap="AllColumnMap">
         select
         <include refid="all_column"/>
         from sys_role
         <where>
-			<if test="roleId != null and roleId != ''">AND role_id = #{roleId}</if>
-			<if test="roleName != null and roleName != ''">AND role_name = #{roleName}</if>
-			<if test="remark != null and remark != ''">AND remark = #{remark}</if>
-			<if test="deptId != null and deptId != ''">AND dept_id = #{deptId}</if>
-			<if test="createTime != null and createTime != ''">AND create_time = #{createTime}</if>
+            <if test="roleId != null and roleId != ''">AND role_id = #{roleId}</if>
+            <if test="roleName != null and roleName != ''">AND role_name = #{roleName}</if>
+            <if test="remark != null and remark != ''">AND remark = #{remark}</if>
+            <if test="deptId != null and deptId != ''">AND dept_id = #{deptId}</if>
+            <if test="createTime != null and createTime != ''">AND create_time = #{createTime}</if>
 
         </where>
-		order by create_time desc
+        order by create_time desc
     </select>
 
     <delete id="delete" parameterType="com.site.mountain.entity.SysRole">
         DELETE from sys_role
         <where>
-			<if test="roleId != null and roleId != ''">AND role_id = #{roleId}</if>
-			<if test="roleName != null and roleName != ''">AND role_name = #{roleName}</if>
-			<if test="remark != null and remark != ''">AND remark = #{remark}</if>
-			<if test="deptId != null and deptId != ''">AND dept_id = #{deptId}</if>
-			<if test="createTime != null and createTime != ''">AND create_time = #{createTime}</if>
+            <if test="roleId != null and roleId != ''">AND role_id = #{roleId}</if>
+            <if test="roleName != null and roleName != ''">AND role_name = #{roleName}</if>
+            <if test="remark != null and remark != ''">AND remark = #{remark}</if>
+            <if test="deptId != null and deptId != ''">AND dept_id = #{deptId}</if>
+            <if test="createTime != null and createTime != ''">AND create_time = #{createTime}</if>
 
         </where>
     </delete>
@@ -108,13 +108,13 @@
         DELETE from sys_role_dept where role_id = #{roleId}
     </delete>
 
-	<update id="update" parameterType="com.site.mountain.entity.SysRole">
-		UPDATE sys_role
-		<set>
-			<if test="pojo.roleName != null">`role_name` = #{pojo.roleName}</if>
-		</set>
-		WHERE role_id = #{pojo.roleId}
-	</update>
+    <update id="update" parameterType="com.site.mountain.entity.SysRole">
+        UPDATE sys_role
+        <set>
+            <if test="pojo.roleName != null">`role_name` = #{pojo.roleName}</if>
+        </set>
+        WHERE role_id = #{pojo.roleId}
+    </update>
 
 </mapper>
 

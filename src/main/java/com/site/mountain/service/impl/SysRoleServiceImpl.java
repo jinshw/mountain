@@ -32,9 +32,22 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     public int delete(SysRole sysRole) {
         int flag = sysRoleDao.delete(sysRole);
-        if (flag > 0) {
-            flag = sysRoleDao.deleteRoleMenu(sysRole);
-            flag = sysRoleDao.deleteRoleDept(sysRole);
+//        if (flag > 0) {
+//            flag = sysRoleDao.deleteRoleMenu(sysRole);
+//            flag = sysRoleDao.deleteRoleDept(sysRole);
+//        }
+        return flag;
+    }
+
+    public int edit(SysRole sysRole) {
+        int flag = sysRoleDao.update(sysRole);
+        if (sysRole.getMenus().size() > 0) {
+            sysRoleDao.deleteRoleMenu(sysRole);
+            sysRoleDao.insertRoleAndMenu(sysRole);
+        }
+        if (sysRole.getDepts().size() > 0) {
+            sysRoleDao.deleteRoleDept(sysRole);
+            sysRoleDao.insertRoleAndDept(sysRole);
         }
         return flag;
     }

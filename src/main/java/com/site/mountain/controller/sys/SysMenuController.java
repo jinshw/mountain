@@ -44,26 +44,6 @@ public class SysMenuController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public void insert(@RequestBody SysMenu sysMenu, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
-//        String name = request.getParameter("name");
-//        String type = request.getParameter("type");
-//        String url = request.getParameter("url");
-//        String perms = request.getParameter("perms");
-//        String parentId = request.getParameter("parentId");
-//        String icon = request.getParameter("icon");
-//        String orderNum = request.getParameter("orderNum");
-//
-//        SysMenu sysMenu = new SysMenu();
-//        sysMenu.setName(name);
-//        sysMenu.setType(Integer.valueOf(type));
-//        sysMenu.setUrl(url);
-//        sysMenu.setPerms(perms);
-
-//        if(!StringUtils.isEmpty(parentId)){
-//            sysMenu.setParentId(new BigInteger(parentId));
-//        }
-//        sysMenu.setIcon(icon);
-//        sysMenu.setOrderNum(Integer.valueOf(orderNum));
-
         int flag = sysMenuService.insert(sysMenu);
         System.out.println(flag);
         if (flag > 0) {

@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50726
-Source Host           : 127.0.0.1:3306
+Source Server         : localhost
+Source Server Version : 50624
+Source Host           : localhost:3306
 Source Database       : mountain
 
 Target Server Type    : MYSQL
-Target Server Version : 50726
+Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2019-06-28 19:17:30
+Date: 2019-06-30 23:58:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -59,7 +59,7 @@ CREATE TABLE `sys_menu` (
   `icon` varchar(50) DEFAULT NULL COMMENT '菜单图标',
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -67,8 +67,7 @@ CREATE TABLE `sys_menu` (
 INSERT INTO `sys_menu` VALUES ('-1', null, '一级菜单', null, null, '0', null, null);
 INSERT INTO `sys_menu` VALUES ('14', '-1', '权限管理', '', 'userInfo:view22', '0', '', '0');
 INSERT INTO `sys_menu` VALUES ('16', '14', '菜单管理', '', 'userInfo:view', '1', '', '4');
-INSERT INTO `sys_menu` VALUES ('20', '14', '部门3333', '', '', '0', '', '0');
-INSERT INTO `sys_menu` VALUES ('21', '20', '111', '', '222', '2', '', '0');
+INSERT INTO `sys_menu` VALUES ('22', '14', '部门管理', '', '', '1', '', '0');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -81,7 +80,7 @@ CREATE TABLE `sys_role` (
   `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_role
@@ -96,8 +95,12 @@ CREATE TABLE `sys_role_dept` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `dept_id` bigint(20) DEFAULT NULL,
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `dept_id` (`dept_id`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `sys_role_dept_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`dept_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `sys_role_dept_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_role_dept
@@ -109,18 +112,20 @@ INSERT INTO `sys_role_dept` VALUES ('1', '1', '1');
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_menu`;
 CREATE TABLE `sys_role_menu` (
-  `menu_id` bigint(20) DEFAULT NULL,
+  `menu_id` bigint(20) NOT NULL,
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `menu_id` (`menu_id`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `sys_role_menu_ibfk_1` FOREIGN KEY (`menu_id`) REFERENCES `sys_menu` (`menu_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `sys_role_menu_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES ('1', '1', '1');
-INSERT INTO `sys_role_menu` VALUES ('14', '1', '2');
-INSERT INTO `sys_role_menu` VALUES ('16', '1', '3');
+INSERT INTO `sys_role_menu` VALUES ('16', '1', '1');
 
 -- ----------------------------
 -- Table structure for sys_user

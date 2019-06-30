@@ -38,13 +38,13 @@ public class SysRoleController {
 //        SysRole sysRole = new SysRole();
 //        sysRole.setRoleName(searchText);
         List list = sysRoleService.find(sysRole);
-        jsonObject.put("code",20000);
-        jsonObject.put("data",list);
+        jsonObject.put("code", 20000);
+        jsonObject.put("data", list);
         return jsonObject;
     }
 
-    @RequestMapping(value = "add",method = RequestMethod.POST)
-    public void insert(@RequestBody SysRole sysRole, HttpServletRequest request,HttpServletResponse response){
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    public void insert(@RequestBody SysRole sysRole, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
 //        String roleName = request.getParameter("roleName");
 //        String remark = request.getParameter("remark");
@@ -54,12 +54,12 @@ public class SysRoleController {
 //        sysRole.setRemark(remark);
         int flag = sysRoleService.insert(sysRole);
         System.out.println(flag);
-        if(flag>0){
-            jsonObject.put("status",200);
-        }else {
-            jsonObject.put("status",500);
+        if (flag > 0) {
+            jsonObject.put("status", 200);
+        } else {
+            jsonObject.put("status", 500);
         }
-        jsonObject.put("code",20000);
+        jsonObject.put("code", 20000);
         try {
             response.getWriter().print(jsonObject.toJSONString());
         } catch (IOException e) {
@@ -69,23 +69,17 @@ public class SysRoleController {
 
 
     @RequestMapping("delete")
-    public void delete(@RequestBody SysRole sysRole,HttpServletRequest request,HttpServletResponse response){
+    public void delete(@RequestBody SysRole sysRole, HttpServletRequest request, HttpServletResponse response) {
         int flag = 0;
         JSONObject jsonObject = new JSONObject();
-//        String roleId = request.getParameter("roleId");
-//        SysRole sysRole = new SysRole();
-//        if(!StringUtils.isEmpty(roleId)){
-//            sysRole.setRoleId(new BigInteger(roleId));
-//            flag = sysRoleService.delete(sysRole);
-//        }
         flag = sysRoleService.delete(sysRole);
 
-        if(flag > 0){
-            jsonObject.put("status",200);
-        }else {
-            jsonObject.put("status",500);
+        if (flag > 0) {
+            jsonObject.put("status", 200);
+        } else {
+            jsonObject.put("status", 500);
         }
-        jsonObject.put("code",20000);
+        jsonObject.put("code", 20000);
         try {
             response.getWriter().print(jsonObject.toJSONString());
         } catch (IOException e) {
@@ -93,5 +87,15 @@ public class SysRoleController {
         }
     }
 
-
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public void edit(@RequestBody SysRole sysRole, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject jsonObject = new JSONObject();
+        int flag = sysRoleService.edit(sysRole);
+        jsonObject.put("code", 20000);
+        try {
+            response.getWriter().print(jsonObject.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
