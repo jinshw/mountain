@@ -20,8 +20,12 @@ public class SysRoleServiceImpl implements SysRoleService {
     public int insert(SysRole pojo) {
         int flag = sysRoleDao.insert(pojo);
         if (flag > 0) {
-            flag = sysRoleDao.insertRoleAndMenu(pojo);
-            flag = sysRoleDao.insertRoleAndDept(pojo);
+            if (pojo.getMenus().size() > 0) {
+                flag = sysRoleDao.insertRoleAndMenu(pojo);
+            }
+            if (pojo.getDepts().size() > 0) {
+                flag = sysRoleDao.insertRoleAndDept(pojo);
+            }
         }
         return flag;
     }

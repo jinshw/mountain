@@ -9,6 +9,8 @@ import java.util.List;
 public interface SysMenuDao {
     int insert(@Param("pojo") SysMenu pojo);
 
+    int update(@Param("pojo") SysMenu pojo);
+
     int insertSelective(SysMenu pojo);
 
     List<SysMenu> findList(SysMenu pojo);

@@ -139,6 +139,18 @@
 		and rm.role_id = #{roleId}
 	</select>
 
-
+	<update id="update" parameterType="com.site.mountain.entity.SysMenu">
+		UPDATE sys_menu
+		<set>
+			<if test="pojo.parentId != null">`parent_id` = #{pojo.parentId},</if>
+			<if test="pojo.name != null and pojo.name !=''">`name` = #{pojo.name},</if>
+			<if test="pojo.url != null and pojo.url != ''">`url` = #{pojo.url},</if>
+			<if test="pojo.perms != null and pojo.perms != ''">`perms` = #{pojo.perms},</if>
+			<if test="pojo.type != null">`type` = #{pojo.type},</if>
+			<if test="pojo.icon != null and pojo.icon != ''">`icon` = #{pojo.icon},</if>
+			<if test="pojo.orderNum != null">`order_num` = #{pojo.orderNum},</if>
+		</set>
+		WHERE menu_id = #{pojo.menuId}
+	</update>
 </mapper>
 

@@ -92,32 +92,39 @@
 
 
     <!--有条件插入-->
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId" parameterType="com.site.mountain.entity.SysUser">
         INSERT INTO sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="pojo.userId!=null">`user_id`,</if> 
-			<if test="pojo.username!=null">`username`,</if> 
-			<if test="pojo.password!=null">`password`,</if> 
-			<if test="pojo.email!=null">`email`,</if> 
-			<if test="pojo.mobile!=null">`mobile`,</if> 
-			<if test="pojo.status!=null">`status`,</if> 
-			<if test="pojo.deptId!=null">`dept_id`,</if> 
-			<if test="pojo.createTime!=null">`create_time`,</if> 
+			<if test="userId!=null">`user_id`,</if>
+			<if test="username!=null">`username`,</if>
+			<if test="password!=null">`password`,</if>
+			<if test="email!=null">`email`,</if>
+			<if test="mobile!=null">`mobile`,</if>
+			<if test="status!=null">`status`,</if>
+			<if test="deptId!=null">`dept_id`,</if>
+			<if test="createTime!=null">`create_time`,</if>
 
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="pojo.userId!=null">#{pojo.userId},</if> 
-			<if test="pojo.username!=null">#{pojo.username},</if> 
-			<if test="pojo.password!=null">#{pojo.password},</if> 
-			<if test="pojo.email!=null">#{pojo.email},</if> 
-			<if test="pojo.mobile!=null">#{pojo.mobile},</if> 
-			<if test="pojo.status!=null">#{pojo.status},</if> 
-			<if test="pojo.deptId!=null">#{pojo.deptId},</if> 
-			<if test="pojo.createTime!=null">#{pojo.createTime},</if> 
+			<if test="userId!=null">#{userId},</if>
+			<if test="username!=null">#{username},</if>
+			<if test="password!=null">#{password},</if>
+			<if test="email!=null">#{email},</if>
+			<if test="mobile!=null">#{mobile},</if>
+			<if test="status!=null">#{status},</if>
+			<if test="deptId!=null">#{deptId},</if>
+			<if test="createTime!=null">#{createTime},</if>
 
         </trim>
     </insert>
+
+	<insert id="insertUserAndRole" parameterType="com.site.mountain.entity.SysUser">
+		INSERT INTO sys_user_role(user_id,role_id) values
+		<foreach collection="roles" item="roleId" separator=",">
+			(#{userId},#{roleId})
+		</foreach>
+	</insert>
 
     <select id="findList" parameterType="com.site.mountain.entity.SysUser" resultMap="AllColumnMap">
         select
@@ -155,8 +162,8 @@
 			<if test="pojo.username != null">`username` = #{pojo.username},</if>
 			<if test="pojo.password != null">`password` = #{pojo.password},</if>
 			<if test="pojo.email != null">`email` = #{pojo.email},</if>
-			<if test="pojo.mobile != null">`salt` = #{pojo.mobile},</if>
-			<if test="pojo.status != null">`state` = #{pojo.status}</if>
+			<if test="pojo.mobile != null">`mobile` = #{pojo.mobile},</if>
+			<if test="pojo.status != null">`status` = #{pojo.status}</if>
 		</set>
 		WHERE user_id = #{pojo.userId}
 	</update>

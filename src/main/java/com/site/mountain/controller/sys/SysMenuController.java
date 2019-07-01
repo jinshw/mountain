@@ -36,8 +36,8 @@ public class SysMenuController {
         JSONObject jsonObject = new JSONObject();
 //        String searchText = request.getParameter("searchText");
         List list = sysMenuService.findList(sysMenu);
-        jsonObject.put("code",20000);
-        jsonObject.put("data",list);
+        jsonObject.put("code", 20000);
+        jsonObject.put("data", list);
         return jsonObject;
     }
 
@@ -60,6 +60,24 @@ public class SysMenuController {
         }
     }
 
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public void edit(@RequestBody SysMenu sysMenu, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject jsonObject = new JSONObject();
+        int flag = sysMenuService.update(sysMenu);
+        if (flag > 0) {
+            jsonObject.put("status", 200);
+        } else {
+            jsonObject.put("status", 500);
+        }
+        jsonObject.put("code", 20000);
+        try {
+            response.getWriter().print(jsonObject.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            jsonObject.put("code", 20001);
+        }
+    }
+
     @RequestMapping("delete")
     public void delete(@RequestBody SysMenu sysMenuParam, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
@@ -67,7 +85,7 @@ public class SysMenuController {
         BigInteger menuId = sysMenuParam.getMenuId();
         SysMenu tree = new SysMenu();
         tree = sysMenuService.getMenuTree(menuId);
-        if(tree.getChildren().size() == 0){
+        if (tree.getChildren().size() == 0) {
             SysMenu sysMenu = new SysMenu();
             sysMenu.setMenuId(menuId);
             int flag = sysMenuService.delete(sysMenu);
@@ -76,7 +94,7 @@ public class SysMenuController {
             } else {
                 jsonObject.put("status", 500);
             }
-        }else{
+        } else {
             jsonObject.put("status", 201);
         }
         jsonObject.put("code", 20000);
@@ -91,13 +109,13 @@ public class SysMenuController {
 
     @RequestMapping("getTree")
     @ResponseBody
-    public JSONObject getTree(@RequestBody SysMenu sysMenu, HttpServletRequest request,HttpServletResponse response){
+    public JSONObject getTree(@RequestBody SysMenu sysMenu, HttpServletRequest request, HttpServletResponse response) {
 //        String menuId = request.getParameter("menuId");
         JSONObject jsonObject = new JSONObject();
         SysMenu tree = new SysMenu();
         tree = sysMenuService.getMenuTree(sysMenu.getMenuId());
-        jsonObject.put("code",20000);
-        jsonObject.put("data",tree);
+        jsonObject.put("code", 20000);
+        jsonObject.put("data", tree);
         return jsonObject;
     }
 

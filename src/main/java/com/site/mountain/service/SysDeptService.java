@@ -11,4 +11,6 @@ public interface SysDeptService {
     public int insert(SysDept sysDept);
 
     public int delete(SysDept sysDept);
+
+    public int update(SysDept sysDept);
 }

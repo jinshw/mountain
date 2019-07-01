@@ -1,17 +1,16 @@
 package com.site.mountain;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-@SpringBootApplication
 //@MapperScan("com.site.mountain.dao")
+@SpringBootApplication
+@EnableTransactionManagement   //开启事物管理功能
 public class MountainApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MountainApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MountainApplication.class, args);
+    }
 }

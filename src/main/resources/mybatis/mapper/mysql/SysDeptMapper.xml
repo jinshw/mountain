@@ -3,11 +3,11 @@
 <mapper namespace="com.site.mountain.dao.mysql.SysDeptDao">
     <!--auto generated Code-->
     <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysDept">
-		<result column="dept_id" property="deptId"/>
-		<result column="parent_id" property="parentId"/>
-		<result column="name" property="name"/>
-		<result column="order_num" property="orderNum"/>
-		<result column="del_flag" property="delFlag"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="del_flag" property="delFlag"/>
 
     </resultMap>
 
@@ -41,20 +41,20 @@
     <insert id="insert">
         INSERT INTO sys_dept
         <trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="pojo.deptId!=null">`dept_id`,</if> 
-			<if test="pojo.parentId!=null">`parent_id`,</if> 
-			<if test="pojo.name!=null">`name`,</if> 
-			<if test="pojo.orderNum!=null">`order_num`,</if> 
-			<if test="pojo.delFlag!=null">`del_flag`,</if> 
+            <if test="pojo.deptId!=null">`dept_id`,</if>
+            <if test="pojo.parentId!=null">`parent_id`,</if>
+            <if test="pojo.name!=null">`name`,</if>
+            <if test="pojo.orderNum!=null">`order_num`,</if>
+            <if test="pojo.delFlag!=null">`del_flag`,</if>
 
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="pojo.deptId!=null">#{pojo.deptId},</if> 
-			<if test="pojo.parentId!=null">#{pojo.parentId},</if> 
-			<if test="pojo.name!=null">#{pojo.name},</if> 
-			<if test="pojo.orderNum!=null">#{pojo.orderNum},</if> 
-			<if test="pojo.delFlag!=null">#{pojo.delFlag},</if> 
+            <if test="pojo.deptId!=null">#{pojo.deptId},</if>
+            <if test="pojo.parentId!=null">#{pojo.parentId},</if>
+            <if test="pojo.name!=null">#{pojo.name},</if>
+            <if test="pojo.orderNum!=null">#{pojo.orderNum},</if>
+            <if test="pojo.delFlag!=null">#{pojo.delFlag},</if>
 
         </trim>
     </insert>
@@ -64,66 +64,68 @@
         <include refid="all_column"/>
         from sys_dept
         <where>
-			<if test="deptId != null">AND name = #{dept_id}</if>
-			<if test="parentId != null">AND name = #{parent_id}</if>
-			<if test="name != null">AND name = #{name}</if>
-			<if test="orderNum != null">AND name = #{order_num}</if>
-			<if test="delFlag != null">AND name = #{del_flag}</if>
+            <if test="deptId != null">AND name = #{dept_id}</if>
+            <if test="parentId != null">AND name = #{parent_id}</if>
+            <if test="name != null">AND name = #{name}</if>
+            <if test="orderNum != null">AND name = #{order_num}</if>
+            <if test="delFlag != null">AND name = #{del_flag}</if>
 
         </where>
-		order by order_num asc
+        order by order_num asc
     </select>
 
     <delete id="delete" parameterType="com.site.mountain.entity.SysDept">
         DELETE from sys_dept
         <where>
-			<if test="deptId != null">AND name = #{dept_id}</if>
-			<if test="parentId != null">AND name = #{parent_id}</if>
-			<if test="name != null">AND name = #{name}</if>
-			<if test="orderNum != null">AND name = #{order_num}</if>
-			<if test="delFlag != null">AND name = #{del_flag}</if>
+            <if test="deptId != null">AND dept_id = #{deptId}</if>
+            <if test="parentId != null">AND parent_id = #{parentId}</if>
+            <if test="name != null">AND `name` = #{name}</if>
+            <if test="orderNum != null">AND order_num = #{orderNum}</if>
         </where>
     </delete>
-	<update id="update" parameterType="com.site.mountain.entity.SysDept">
-		UPDATE sys_dept
-		<set>
-			<if test="pojo.delFlag != null">`del_flag` = #{pojo.delFlag}</if>
-		</set>
-		WHERE dept_id = #{pojo.deptId}
-	</update>
+    <update id="update" parameterType="com.site.mountain.entity.SysDept">
+        UPDATE sys_dept
+        <set>
+            <if test="pojo.deptId != null">`dept_id` = #{pojo.deptId},</if>
+            <if test="pojo.parentId != null">`parent_id` = #{pojo.parentId},</if>
+            <if test="pojo.name != null">`name` = #{pojo.name},</if>
+            <if test="pojo.orderNum != null">`order_num` = #{pojo.orderNum},</if>
+        </set>
+        WHERE dept_id = #{pojo.deptId}
+    </update>
 
 
-	<select id="selectByid" parameterType="java.math.BigInteger"
-			resultMap="AllColumnMap">
-		SELECT
-		<include refid="all_column"></include>
-		FROM sys_dept
-		where dept_id = #{deptId}
-		and del_flag = 0
-		order by order_num asc
-	</select>
+    <select id="selectByid" parameterType="java.math.BigInteger"
+            resultMap="AllColumnMap">
+        SELECT
+        <include refid="all_column"></include>
+        FROM sys_dept
+        where dept_id = #{deptId}
+        and del_flag = 0
+        order by order_num asc
+    </select>
 
-	<select id="selectByPid" parameterType="com.site.mountain.entity.SysDept"
-			resultMap="AllColumnMap">
-		SELECT
-		<include refid="all_column"></include>
-		FROM sys_dept
-		<where>
-			<if test="1==1">
-				AND  del_flag = 0
-			</if>
-			<if test="deptId != null">
-				AND dept_id = #{deptId}
-			</if>
-			<if test="parentId != null">
-				AND parent_id = #{parentId}
-			</if>
-		</where>
-		order by order_num asc
-	</select>
+    <select id="selectByPid" parameterType="com.site.mountain.entity.SysDept"
+            resultMap="AllColumnMap">
+        SELECT
+        <include refid="all_column"></include>
+        FROM sys_dept
+        <where>
+            <if test="1==1">
+                AND del_flag = 0
+            </if>
+            <if test="deptId != null">
+                AND dept_id = #{deptId}
+            </if>
+            <if test="parentId != null">
+                AND parent_id = #{parentId}
+            </if>
+        </where>
+        order by order_num asc
+    </select>
 
-	<select id="selectByRoleId" parameterType="java.math.BigInteger"
-			resultMap="AllColumnMap">
+    <select id="selectByRoleId" parameterType="java.math.BigInteger"
+            resultMap="AllColumnMap">
 		SELECT d.* from sys_dept d,sys_role_dept rd
 		where d.dept_id = rd.dept_id
 		and rd.role_id = #{roleId}

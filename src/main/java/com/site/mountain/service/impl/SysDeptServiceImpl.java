@@ -19,7 +19,7 @@ public class SysDeptServiceImpl implements SysDeptService {
         SysDept tree = new SysDept();
         tree = sysDeptDao.selectByid(id);
         SysDept parentDept = sysDeptDao.selectByid(tree.getParentId());
-        if(parentDept != null && !parentDept.getDeptId().toString().equals("-1") ){
+        if (parentDept != null && !parentDept.getDeptId().toString().equals("-1")) {
             tree.setParentName(parentDept.getName());
         }
         SysDept sysDept = new SysDept();
@@ -36,7 +36,12 @@ public class SysDeptServiceImpl implements SysDeptService {
         return sysDeptDao.insert(sysDept);
     }
 
-    public int delete(SysDept sysDept){
+    public int delete(SysDept sysDept) {
+        return sysDeptDao.delete(sysDept);
+//        return sysDeptDao.update(sysDept);
+    }
+
+    public int update(SysDept sysDept) {
         return sysDeptDao.update(sysDept);
     }
 }

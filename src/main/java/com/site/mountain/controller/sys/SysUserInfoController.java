@@ -6,6 +6,8 @@ import com.site.mountain.entity.SysUser;
 import com.site.mountain.service.SysPermissionService;
 import com.site.mountain.service.SysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -16,23 +18,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequestMapping("/sysuser")
 public class SysUserInfoController {
+    private final static Logger logger = LoggerFactory.getLogger(SysUserInfoController.class);
 
     @Autowired
     private SysUserService sysUserService;
-//    @Autowired
+    //    @Autowired
 //    private SysRoleService sysRoleService;
     @Autowired
     private SysPermissionService sysPermissionService;
 
     @RequestMapping(value = "allRoles", method = RequestMethod.GET)
     @ResponseBody
-    public List findAllUserAndRoles(){
+    public List findAllUserAndRoles() {
         SysUser sysUser = new SysUser();
         List list = sysUserService.selectAllUserAndRoles(sysUser);
         return list;
@@ -58,9 +60,9 @@ public class SysUserInfoController {
         sysUser.setUsername(searchText);
         List list = sysUserService.findList(sysUser);
         JSONObject obj = new JSONObject();
-        obj.put("data",list);
-        obj.put("code",20000);
-        obj.put("message","success");
+        obj.put("data", list);
+        obj.put("code", 20000);
+        obj.put("message", "success");
         return obj;
     }
 
@@ -77,8 +79,8 @@ public class SysUserInfoController {
         return sysPermissionService.findList(new SysPermission());
     }
 
-    @RequestMapping(value = "add",method = RequestMethod.POST)
-    public void insert(HttpServletRequest request,HttpServletResponse response){
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    public void insert(HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
         String userName = request.getParameter("username");
         String password = request.getParameter("password");
@@ -91,18 +93,18 @@ public class SysUserInfoController {
         sysUser.setPassword(password);
         sysUser.setEmail(email);
         sysUser.setMobile(mobile);
-        if(!StringUtils.isEmpty(status)){
-            sysUser.setStatus( Integer.valueOf(status));
+        if (!StringUtils.isEmpty(status)) {
+            sysUser.setStatus(Integer.valueOf(status));
         }
-        if(!StringUtils.isEmpty(deptId)){
+        if (!StringUtils.isEmpty(deptId)) {
             sysUser.setDeptId(new BigInteger(deptId));
         }
         int flag = sysUserService.insert(sysUser);
         System.out.println(flag);
-        if(flag>0){
-            jsonObject.put("status",200);
-        }else {
-            jsonObject.put("status",500);
+        if (flag > 0) {
+            jsonObject.put("status", 200);
+        } else {
+            jsonObject.put("status", 500);
         }
 
         try {
@@ -112,36 +114,24 @@ public class SysUserInfoController {
         }
     }
 
-    @RequestMapping(value = "adduser",method = RequestMethod.POST)
-    public void addUser(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value = "adduser", method = RequestMethod.POST)
+    public void addUser(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
-//        String userName = request.getParameter("username");
-//        String password = request.getParameter("password");
-//        String email = request.getParameter("email");
-//        String mobile = request.getParameter("mobile");
-//        String status = request.getParameter("status");
-//        String deptId = request.getParameter("deptId");
-//        SysUser sysUser = new SysUser();
-//        sysUser.setUsername(userName);
-//        sysUser.setPassword(password);
-//        sysUser.setEmail(email);
-//        sysUser.setMobile(mobile);
-//        if(!StringUtils.isEmpty(status)){
-//            sysUser.setStatus( Integer.valueOf(status));
-//        }
-//        if(!StringUtils.isEmpty(deptId)){
-//            sysUser.setDeptId(new BigInteger(deptId));
-//        }
-
         Timestamp createtime = new Timestamp(System.currentTimeMillis());
         sysUser.setCreateTime(createtime);
-        int flag = sysUserService.insert(sysUser);
+        int flag = 0;
+        try {
+            flag = sysUserService.insert(sysUser);
+        }catch (Exception e){
+            logger.error("失败", e);
+        }
+
         System.out.println(flag);
-        jsonObject.put("code",20000);
-        if(flag>0){
-            jsonObject.put("message","执行成功");
-        }else {
-            jsonObject.put("message","执行失败");
+        jsonObject.put("code", 20000);
+        if (flag > 0) {
+            jsonObject.put("message", "执行成功");
+        } else {
+            jsonObject.put("message", "执行失败");
         }
 
         try {
@@ -152,20 +142,14 @@ public class SysUserInfoController {
     }
 
     @RequestMapping("delete")
-    public void delete(@RequestBody SysUser sysUser,HttpServletRequest request,HttpServletResponse response){
+    public void delete(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         int flag = 0;
         JSONObject jsonObject = new JSONObject();
-//        String id = request.getParameter("id");
-//        SysUser sysUser = new SysUser();
-//        if(!StringUtils.isEmpty(id)){
-//            sysUser.setUserId(new BigInteger(id));
-//            flag = sysUserService.delete(sysUser);
-//        }
         flag = sysUserService.delete(sysUser);
-        if(flag > 0){
-            jsonObject.put("code",20000);
-        }else {
-            jsonObject.put("code",20000);
+        if (flag > 0) {
+            jsonObject.put("code", 20000);
+        } else {
+            jsonObject.put("code", 20000);
         }
         try {
             response.getWriter().print(jsonObject.toJSONString());
@@ -173,25 +157,18 @@ public class SysUserInfoController {
             e.printStackTrace();
         }
     }
-    @RequestMapping("update")
-    public void update(@RequestBody SysUser sysUser,HttpServletRequest request,HttpServletResponse response,@ModelAttribute SysUser user){
+
+    @RequestMapping("edit")
+    public void update(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response, @ModelAttribute SysUser user) {
         int flag = 0;
-
-
         JSONObject jsonObject = new JSONObject();
-//        String id = request.getParameter("id");
-//
-//        SysUser sysUser = new SysUser();
-//        if(!StringUtils.isEmpty(id)){
-//            sysUser.setUserId(new BigInteger(id));
-//            flag = sysUserService.update(sysUser);
-//        }
         flag = sysUserService.update(sysUser);
-        if(flag > 0){
-            jsonObject.put("status",200);
-        }else {
-            jsonObject.put("status",500);
+        if (flag > 0) {
+            jsonObject.put("status", 200);
+        } else {
+            jsonObject.put("status", 500);
         }
+        jsonObject.put("code", 20000);
         try {
             response.getWriter().print(jsonObject.toJSONString());
         } catch (IOException e) {

@@ -25,41 +25,24 @@ public class SysDeptController {
     SysDeptService sysDeptService;
 
 
-    public List<SysDept> findList(HttpServletRequest request, HttpServletResponse response){
+    public List<SysDept> findList(HttpServletRequest request, HttpServletResponse response) {
         return null;
     }
 
     @RequestMapping("getTree")
     @ResponseBody
-    public JSONObject getTree(@RequestBody SysDept sysDept,  HttpServletRequest request,HttpServletResponse response){
-//        String deptId = request.getParameter("deptId");
+    public JSONObject getTree(@RequestBody SysDept sysDept, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
         SysDept tree = new SysDept();
         tree = sysDeptService.getMenuTree(sysDept.getDeptId());
-//        tree = sysDeptService.getMenuTree(new BigInteger(deptId));
-        jsonObject.put("code",20000);
-        jsonObject.put("data",tree);
+        jsonObject.put("code", 20000);
+        jsonObject.put("data", tree);
         return jsonObject;
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public void insert(@RequestBody SysDept sysDept, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
-//        String name = request.getParameter("name");
-//        String parentId = request.getParameter("parentId");
-//        String orderNum = request.getParameter("orderNum");
-
-//        SysDept sysDept = new SysDept();
-//        sysDept.setName(name);
-//        if(!StringUtils.isEmpty(parentId)){
-//            sysDept.setParentId(new BigInteger(parentId));
-//        }else{
-//            sysDept.setParentId(new BigInteger("-1"));
-//        }
-//        if(!StringUtils.isEmpty(orderNum)){
-//            sysDept.setOrderNum(Integer.valueOf(orderNum));
-//        }
-
         int flag = sysDeptService.insert(sysDept);
         System.out.println(flag);
         jsonObject.put("code", 20000);
@@ -75,16 +58,14 @@ public class SysDeptController {
         }
     }
 
-    @RequestMapping(value = "delete",method = RequestMethod.POST)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     public void delete(@RequestBody SysDept sysDeptParam, HttpServletRequest request, HttpServletResponse response) {
         int flag = 0;
         JSONObject jsonObject = new JSONObject();
-//        String deptId = request.getParameter("deptId");
         BigInteger deptId = sysDeptParam.getDeptId();
         SysDept tree = new SysDept();
         tree = sysDeptService.getMenuTree(deptId);
-//        tree = sysDeptService.getMenuTree(new BigInteger(deptId));
-        if(tree.getChildren().size() == 0){
+        if (tree.getChildren().size() == 0) {
             SysDept sysDept = new SysDept();
             sysDept.setDeptId(deptId);
             sysDept.setDelFlag(-1);
@@ -94,7 +75,7 @@ public class SysDeptController {
             } else {
                 jsonObject.put("status", 500);
             }
-        }else{
+        } else {
             jsonObject.put("status", 201);
         }
         jsonObject.put("code", 20000);
@@ -104,4 +85,23 @@ public class SysDeptController {
             e.printStackTrace();
         }
     }
+
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public void edit(@RequestBody SysDept sysDept, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject jsonObject = new JSONObject();
+        int flag = sysDeptService.update(sysDept);
+        System.out.println(flag);
+        jsonObject.put("code", 20000);
+        if (flag > 0) {
+            jsonObject.put("status", 200);
+        } else {
+            jsonObject.put("status", 500);
+        }
+        try {
+            response.getWriter().print(jsonObject.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
