@@ -4,8 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-//@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-//@MapperScan("com.site.mountain.dao")
 @SpringBootApplication
 @EnableTransactionManagement   //开启事物管理功能
 public class MountainApplication {

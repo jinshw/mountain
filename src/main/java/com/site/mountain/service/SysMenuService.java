@@ -20,4 +20,5 @@ public interface SysMenuService {
     public int delete(SysMenu sysMenu);
 
     public SysMenu getMenuTree(BigInteger id);
+
 }

@@ -1,11 +1,10 @@
 package com.site.mountain.service.impl;
 
 import com.site.mountain.dao.mysql.SysMenuDao;
-import com.site.mountain.dao.test1.SysPermissionDao;
+import com.site.mountain.dao.mysql.SysRoleMenuDao;
 import com.site.mountain.entity.SysMenu;
-import com.site.mountain.entity.SysPermission;
+import com.site.mountain.entity.SysRoleMenu;
 import com.site.mountain.service.SysMenuService;
-import com.site.mountain.service.SysPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +16,9 @@ public class SysMenuServiceImpl implements SysMenuService {
 
     @Autowired
     private SysMenuDao sysMenuDao;
+
+    @Autowired
+    SysRoleMenuDao sysRoleMenuDao;
 
     public int insert(SysMenu pojo) {
         return sysMenuDao.insert(pojo);

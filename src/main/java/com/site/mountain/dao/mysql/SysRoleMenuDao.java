@@ -7,6 +7,7 @@ public interface SysRoleMenuDao {
     int insert(SysRoleMenu pojo);
     int insertSelective(List<SysRoleMenu> pojo);
     List<String> findList(SysRoleMenu pojo);
+    Integer findCount(SysRoleMenu pojo);
     int delete(SysRoleMenu pojo);
 
 }

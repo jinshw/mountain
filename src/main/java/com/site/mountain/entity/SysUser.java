@@ -18,7 +18,7 @@ public class SysUser implements Serializable {
     private Integer status;
     private BigInteger deptId;
     private Timestamp createTime;
-    private String[] roles = new String[100];
+    private Integer[] roles = new Integer[100];
 
     private List<SysRole> roleList = new ArrayList<SysRole>();
     private List<SysMenu> menuList = new ArrayList<SysMenu>();
@@ -103,11 +103,11 @@ public class SysUser implements Serializable {
         this.createTime = createTime;
     }
 
-    public String[] getRoles() {
+    public Integer[] getRoles() {
         return roles;
     }
 
-    public void setRoles(String[] roles) {
+    public void setRoles(Integer[] roles) {
         this.roles = roles;
     }
 }

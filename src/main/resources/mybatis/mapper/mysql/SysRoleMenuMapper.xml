@@ -59,6 +59,15 @@
 
         </where>
     </select>
+    <select id="findCount" parameterType="com.site.mountain.entity.SysRoleMenu" resultType="java.lang.Integer">
+        select count(1)
+        from sys_role_menu
+        <where>
+			<if test="menuId != null">AND menu_id = #{menuId}</if>
+			<if test="roleId != null">AND role_id = #{roleId}</if>
+			<if test="id != null">AND id = #{id}</if>
+        </where>
+    </select>
 
     <delete id="delete" parameterType="com.site.mountain.entity.SysRoleMenu">
         DELETE from sys_role_menu

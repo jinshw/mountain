@@ -12,20 +12,19 @@
     <sql id="all_column">
 		`id`,
 		`user_id`,
-		`role_id`,
-
+		`role_id`
     </sql>
 
     <insert id="insertSelective">
 	INSERT INTO sys_user_role (
 		`id`,
 		`user_id`,
-		`role_id`,
+		`role_id`
 
 	) VALUES ( 
 		#{pojo.id},
 		#{pojo.userId},
-		#{pojo.roleId},
+		#{pojo.roleId}
 	) 
 
     </insert>
@@ -53,10 +52,9 @@
         <include refid="all_column"/>
         from sys_user_role
         <where>
-			<if test="id != null">AND name = #{id}</if>
-			<if test="userId != null">AND name = #{user_id}</if>
-			<if test="roleId != null">AND name = #{role_id}</if>
-
+			<if test="id != null">AND id = #{id}</if>
+			<if test="userId != null">AND user_id = #{userId}</if>
+			<if test="roleId != null">AND role_id = #{roleId}</if>
         </where>
     </select>
 

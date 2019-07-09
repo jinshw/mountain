@@ -1,5 +1,6 @@
 package com.site.mountain.service;
 
+import com.site.mountain.entity.SysMenu;
 import com.site.mountain.entity.SysUser;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface SysUserService {
     public int delete(SysUser SysUser);
 
     public int update(SysUser sysUser);
+
+    public SysMenu getMenuTree(SysUser sysUser);
 }

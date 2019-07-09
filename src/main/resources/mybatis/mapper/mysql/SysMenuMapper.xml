@@ -57,7 +57,7 @@
 			<if test="pojo.parentId!=null">`parent_id`,</if> 
 			<if test="pojo.name!=null">`name`,</if> 
 			<if test="pojo.url!=null">`url`,</if> 
-			<if test="pojo.perms!=null">`perms`,</if> 
+			<if test="pojo.perms!=null and pojo.perms!=''">`perms`,</if>
 			<if test="pojo.type!=null">`type`,</if> 
 			<if test="pojo.icon!=null">`icon`,</if> 
 			<if test="pojo.orderNum!=null">`order_num`,</if> 
@@ -69,7 +69,7 @@
 			<if test="pojo.parentId!=null">#{pojo.parentId},</if> 
 			<if test="pojo.name!=null">#{pojo.name},</if> 
 			<if test="pojo.url!=null">#{pojo.url},</if> 
-			<if test="pojo.perms!=null">#{pojo.perms},</if> 
+			<if test="pojo.perms!=null and pojo.perms!=''">#{pojo.perms},</if>
 			<if test="pojo.type!=null">#{pojo.type},</if> 
 			<if test="pojo.icon!=null">#{pojo.icon},</if> 
 			<if test="pojo.orderNum!=null">#{pojo.orderNum},</if> 

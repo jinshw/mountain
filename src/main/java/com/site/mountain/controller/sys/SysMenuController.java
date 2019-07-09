@@ -2,12 +2,9 @@ package com.site.mountain.controller.sys;
 
 import com.alibaba.fastjson.JSONObject;
 import com.site.mountain.entity.SysMenu;
-import com.site.mountain.entity.SysPermission;
 import com.site.mountain.service.SysMenuService;
-import com.site.mountain.service.SysPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

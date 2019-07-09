@@ -1,26 +1,22 @@
 package com.site.mountain.config;
 
-import com.site.mountain.entity.*;
+import com.site.mountain.entity.SysMenu;
+import com.site.mountain.entity.SysRole;
+import com.site.mountain.entity.SysUser;
 import com.site.mountain.service.SysUserService;
-import com.site.mountain.service.UserInfoService;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
 
 public class MyShiroRealm extends AuthorizingRealm {
-    //用于用户查询
-//    @Autowired
-//    private ILoginService loginService;
-
     @Autowired
+    @Lazy
     private SysUserService sysUserService;
 
     //角色权限和对应权限添加
@@ -34,7 +30,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 //        User user = loginService.findByName(name);
         List<SysUser> list = sysUserService.selectAllUserAndRoles(sysUser);
         SysUser userInfo = null;
-        if(list.size() != 0){
+        if (list.size() != 0) {
             userInfo = list.get(0);
         }
         //添加角色和权限
@@ -61,12 +57,14 @@ public class MyShiroRealm extends AuthorizingRealm {
             return null;
         }
         //获取用户信息
-        String name = authenticationToken.getPrincipal().toString();
+//        String name = authenticationToken.getPrincipal().toString();
+        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
+        String name = usernamePasswordToken.getUsername();
         SysUser sysUser = new SysUser();
         sysUser.setUsername(name);
         List<SysUser> list = sysUserService.selectAllUserAndRoles(sysUser);
         SysUser userInfo = null;
-        if(list.size() != 0){
+        if (list.size() != 0) {
             userInfo = list.get(0);
         }
         if (userInfo == null) {

@@ -78,16 +78,18 @@ public class ShiroConfig {
         map.put("/swagger-resources", "anon");
         map.put("/v2/api-docs", "anon");
         map.put("/webjars/springfox-swagger-ui/**", "anon");
-        map.put("/user/login","anon");
-        map.put("/user/info","anon");
-        map.put("/user/logout","anon");
+        map.put("/sysuser/login","anon");
+        map.put("/sysuser/info","anon");
+        map.put("/sysuser/logout","anon");
+        map.put("/index.html","anon");
+        map.put("/*.ico","anon");
+        map.put("/static/**","anon");
 //        map.put("/**","user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 
 
         //登录(默认的登陆访问url)
-        shiroFilterFactoryBean.setLoginUrl("/login");
-        shiroFilterFactoryBean.setLoginUrl("/loginCross");
+        shiroFilterFactoryBean.setLoginUrl("/sysuser/login");
         //首页(登陆成功后跳转的url)
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //没有权限跳转的url(错误页面，认证不通过跳转)

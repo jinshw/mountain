@@ -11,7 +11,8 @@
 		<result column="status" property="status"/>
 		<result column="dept_id" property="deptId"/>
 		<result column="create_time" property="createTime"/>
-
+		<!--<collection property="roleList" column="user_id" select="com.site.mountain.dao.mysql.SysRoleDao.findList"></collection>-->
+		<collection property="roles" column="user_id" select="com.site.mountain.dao.mysql.SysRoleDao.selectByUserId"></collection>
     </resultMap>
 
     <sql id="all_column">
@@ -56,9 +57,13 @@
 		<where>
 			<if test="1==1">
 				AND u.user_id = ur.user_id and r.role_id = ur.role_id and m.menu_id = rm.menu_id and r.role_id = rm.role_id
+				AND u.status = 1
 			</if>
 			<if test="username != null and username != ''">
 				AND u.username = #{username}
+			</if>
+			<if test="password != null and password != ''">
+				AND u.password = #{password}
 			</if>
 		</where>
 		order by username asc
@@ -156,11 +161,14 @@
         </where>
     </delete>
 
+	<delete id="deleteUserAndRole" parameterType="com.site.mountain.entity.SysUser">
+		DELETE FROM sys_user_role WHERE user_id = #{userId}
+	</delete>
+
 	<update id="update">
 		UPDATE sys_user
 		<set>
 			<if test="pojo.username != null">`username` = #{pojo.username},</if>
-			<if test="pojo.password != null">`password` = #{pojo.password},</if>
 			<if test="pojo.email != null">`email` = #{pojo.email},</if>
 			<if test="pojo.mobile != null">`mobile` = #{pojo.mobile},</if>
 			<if test="pojo.status != null">`status` = #{pojo.status}</if>

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface SysUserDao {
-    int insert( SysUser pojo);
+    int insert(SysUser pojo);
 
     int insertUserAndRole(SysUser pojo);
 
@@ -17,6 +17,8 @@ public interface SysUserDao {
     List<String> findList(SysUser pojo);
 
     int delete(SysUser pojo);
+
+    int deleteUserAndRole(SysUser pojo);
 
     List<SysUser> selectAllUserAndRoles(SysUser sysUser);
 
