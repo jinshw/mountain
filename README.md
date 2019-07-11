@@ -3,6 +3,56 @@
 
 
 
+## 更新日志-20190711
+
+* 新增定时任务模块
+
+  * 集成quartz 2.2.1插件
+
+    ```xml
+    <dependency>
+        <groupId>org.quartz-scheduler</groupId>
+        <artifactId>quartz</artifactId>
+        <version>2.2.1</version>
+    </dependency>
+    <!-- 该依赖必加，里面有sping对schedule的支持 -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+    </dependency>
+    ```
+
+    
+
+  * 在quartz 官网中下载相应的数据脚本，并且把数据库刷入到本地数据库中
+
+  * 配置quartz.properties 配置文件
+
+  * 配置SchedulerConfig.java 文件
+
+* 新增分页插件
+
+  ```xml
+  <dependency>    
+      <groupId>com.github.pagehelper</groupId>    
+      <artifactId>pagehelper</artifactId>    
+      <version>5.0.0</version>
+  </dependency>
+  ```
+
+
+
+* 填坑：
+
+  * quartz.properties文件中下边这句话必须注释掉，不然会报Bean对象重复注入
+  ```
+    #org.quartz.scheduler.instanceName = DefaultQuartzScheduler
+  ```
+  
+  * qrtz_triggers.TRIGGER_STATE 这个字段为定时器的状态
+  
+    
+
 ## 更新日志-20190709
 
 * 新增菜单路由查询
