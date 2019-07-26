@@ -29,3 +29,6 @@
 
 /src/main/resources/static/dist
 src/main/resources/templates/
+
+with -a does not make sense.
+.vscode/

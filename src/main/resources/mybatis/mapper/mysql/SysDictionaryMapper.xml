@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.site.mountain.dao.mysql.SysDictionaryDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysDictionary">
+        <result column="dict_id" property="dictId"/>
+        <result column="dict_name" property="dictName"/>
+        <result column="dict_group_name" property="dictGroupName"/>
+        <result column="dict_value" property="dictValue"/>
+        <result column="orders" property="orders"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="all_column">
+		`dict_id`,
+		`dict_name`,
+		`dict_group_name`,
+		`dict_value`,
+		`orders`,
+		`remark`,
+		`create_time`
+    </sql>
+
+
+    <select id="findList" parameterType="com.site.mountain.entity.SysDictionary" resultMap="AllColumnMap">
+        select
+        <include refid="all_column"/>
+        from sys_dictionary
+        <where>
+            <if test="dictName != null and dictName != ''">AND dict_name = #{dictName}</if>
+            <if test="dictGroupName != null and dictGroupName != ''">AND dict_group_name = #{dictGroupName}</if>
+            <if test="dictValue != null and dictValue != ''">AND dict_value = #{dictValue}</if>
+            <if test="createTime != null">AND create_time = #{createTime}</if>
+        </where>
+        ORDER BY dict_group_name, orders ASC
+    </select>
+
+    <insert id="insert">
+        INSERT INTO sys_dictionary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.dictId!=null">`dict_id`,</if>
+            <if test="pojo.dictName!=null">`dict_name`,</if>
+            <if test="pojo.dictGroupName!=null">`dict_group_name`,</if>
+            <if test="pojo.dictValue!=null">`dict_value`,</if>
+            <if test="pojo.orders!=null">`orders`,</if>
+            <if test="pojo.remark!=null">`remark`,</if>
+            <if test="1==1">`create_time`,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.dictId!=null">#{pojo.dictId},</if>
+            <if test="pojo.dictName!=null">#{pojo.dictName},</if>
+            <if test="pojo.dictGroupName!=null">#{pojo.dictGroupName},</if>
+            <if test="pojo.dictValue!=null">#{pojo.dictValue},</if>
+            <if test="pojo.orders!=null">#{pojo.orders},</if>
+            <if test="pojo.remark!=null">#{pojo.remark},</if>
+            <if test="1==1">SYSDATE(),</if>
+        </trim>
+    </insert>
+
+    <delete id="delete" parameterType="com.site.mountain.entity.SysDictionary">
+        DELETE from sys_dictionary
+        <where>
+            <if test="dictId != null">AND dict_id = #{dictId}</if>
+            <if test="dictName != null">AND `dict_name` = #{dictName}</if>
+            <if test="dictGroupName != null">AND dict_group_name = #{dictGroupName}</if>
+            <if test="dictValue != null">AND dict_value = #{dictValue}</if>
+        </where>
+    </delete>
+    <update id="update" parameterType="com.site.mountain.entity.SysDictionary">
+        UPDATE sys_dictionary
+        <set>
+            <if test="pojo.dictName!=null">`dict_name` = #{pojo.dictName},</if>
+            <if test="pojo.dictGroupName!=null"> `dict_group_name` = #{pojo.dictGroupName},</if>
+            <if test="pojo.dictValue!=null"> `dict_value` = #{pojo.dictValue},</if>
+            <if test="pojo.orders!=null"> orders = #{pojo.orders},</if>
+            <if test="pojo.remark!=null">remark = #{pojo.remark},</if>
+        </set>
+        WHERE dict_id = #{pojo.dictId}
+    </update>
+
+</mapper>
+

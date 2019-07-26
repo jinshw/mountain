@@ -1,7 +1,46 @@
 # mountain 工程
 > 访问url：http://localhost:8080/mt/index.htm
 
-
+## 更新日志-20190726
+* 集成Druid 连接池
+    * pom.xml中添加相应jar包
+    ```$xslt
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid-spring-boot-starter</artifactId>
+        <version>1.1.10</version>
+    </dependency>
+    ```
+   * 修改配置文件
+   ```text
+    #配置监控统计拦截的filters，去掉后监控界面SQL无法进行统计，'wall'用于防火墙
+    spring.datasource.mysql.filters=stat,wall
+    spring.datasource.mysql.driverClassName=com.mysql.jdbc.Driver
+    spring.datasource.mysql.type = com.alibaba.druid.pool.DruidDataSource
+    spring.datasource.mysql.url=jdbc:mysql://127.0.0.1:3306/mountain
+    spring.datasource.mysql.username=root
+    spring.datasource.mysql.password=root
+   ``` 
+   * 修改数据源配置类:把`MysqlDataSourceConfig`类中数据源应用到的类都修改为Druid对应的类
+   ```java
+    @Configuration
+    @MapperScan(basePackages = "com.site.mountain.dao.mysql", sqlSessionTemplateRef = "mysqlSqlSessionTemplate")
+    public class MysqlDataSourceConfig {
+        // @Primary 确定此数据源为master
+        @Bean(name = "mysqlDataSource")
+        @ConfigurationProperties(prefix = "spring.datasource.mysql")
+        @Primary
+        public DruidDataSource mysqlDataSource() {
+            return DruidDataSourceBuilder.create().build();
+        }
+      //....    
+    }
+   ````
+   * 设置Druid配置类`DruidConfig.java`
+   
+   * Druid监控页面URL：[http://172.22.112.130:8080/mt/druid ]
+* 存在问题：
+   * 访问Druid监控页面URL时，系统必须先登录，因为shiro拦截了访问，但是在shiro放开`druid/**` 访问拦截，会导致系统主页面等链接不能访问，待解决...
 
 ## 更新日志-20190711
 
@@ -10,16 +49,21 @@
   * 集成quartz 2.2.1插件
 
     ```xml
-    <dependency>
-        <groupId>org.quartz-scheduler</groupId>
-        <artifactId>quartz</artifactId>
-        <version>2.2.1</version>
-    </dependency>
-    <!-- 该依赖必加，里面有sping对schedule的支持 -->
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context-support</artifactId>
-    </dependency>
+    <dependencies>
+        ...
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <!-- 该依赖必加，里面有sping对schedule的支持 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        ...
+    </dependencies>
+
     ```
 
     

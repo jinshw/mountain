@@ -40,7 +40,15 @@
 
 	<select id="selectAllUserAndRoles" parameterType="com.site.mountain.entity.SysUser"
 			resultMap="userRoleListMap">
-		SELECT u.*,
+		SELECT
+		u.user_id,
+		u.username,
+		u.password,
+		u.email,
+		u.mobile,
+		u.status,
+		u.dept_id,
+		u.create_time,
 		r.role_id role_role_id,
 		r.role_name role_role_name,
 		r.remark role_remark,
@@ -67,7 +75,6 @@
 			</if>
 		</where>
 		order by username asc
-		-- where u.uid = ur.uid and r.id = ur.role_id
 	</select>
 
 	<insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.user_id">

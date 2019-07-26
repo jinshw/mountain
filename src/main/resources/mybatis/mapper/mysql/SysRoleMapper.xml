@@ -111,7 +111,8 @@
     <update id="update" parameterType="com.site.mountain.entity.SysRole">
         UPDATE sys_role
         <set>
-            <if test="pojo.roleName != null">`role_name` = #{pojo.roleName}</if>
+            <if test="pojo.roleName != null">`role_name` = #{pojo.roleName},</if>
+            <if test="pojo.remark != null">`remark` = #{pojo.remark}</if>
         </set>
         WHERE role_id = #{pojo.roleId}
     </update>

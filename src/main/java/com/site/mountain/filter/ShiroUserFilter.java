@@ -36,6 +36,7 @@ public class ShiroUserFilter extends UserFilter {
         HttpServletResponse res = (HttpServletResponse)response;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setStatus(HttpServletResponse.SC_OK);
+//        res.setContentType("application/json;charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         PrintWriter writer = res.getWriter();
         Map<String, Object> map= new HashMap<>();
