@@ -1,5 +1,17 @@
 # mountain 工程
-> 访问url：http://localhost:8080/mt/index.htm
+> 访问url：http://localhost:8080/mt/index.html
+
+## 更新日志-20190806
+* 多环境配置文件配置：修改`application.properties` 文件中`spring.profiles.active=dev`这个配置
+
+## 更新日志-20190805
+* pom文件中集成docker插件 `docker-maven-plugin`
+* docker 服务需要开启 2375 端口   
+    * 编辑docker.service文件，manjaro系统在`/usr/lib/systemd/system`路径下  
+    * 配置`ExecStart=/usr/bin/dockerd -H unix://var/run/docker.sock -H tcp://0.0.0.0:2375`  
+* 集成dockerfile文件   
+* 执行命令：`clean compile install -DskipTests docker:removeImage docker:build`
+
 
 ## 更新日志-20190726
 * 集成Druid 连接池
