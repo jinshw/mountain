@@ -2,14 +2,12 @@ package com.site.mountain.controller.sys;
 
 import com.alibaba.fastjson.JSONObject;
 import com.site.mountain.entity.SysRole;
+import com.site.mountain.exception.MyException;
 import com.site.mountain.service.SysRoleService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -93,6 +91,17 @@ public class SysRoleController {
             response.getWriter().print(jsonObject.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @GetMapping(value = "id/{id}")
+    public void getAge(@PathVariable("id") Integer id) {
+        if (id < 10) {
+            //返回"你还在上小学吧" code=100
+            throw new MyException(100, "你还在上小学吧");
+        } else if (id > 10 && id < 16) {
+            //返回"你可能在上初中" code=101
+            throw new MyException(101, "你可能在上初中");
         }
     }
 }

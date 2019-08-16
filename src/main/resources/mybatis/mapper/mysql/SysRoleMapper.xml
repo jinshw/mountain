@@ -84,7 +84,6 @@
             <if test="roleName != null and roleName != ''">AND role_name = #{roleName}</if>
             <if test="remark != null and remark != ''">AND remark = #{remark}</if>
             <if test="deptId != null and deptId != ''">AND dept_id = #{deptId}</if>
-            <if test="createTime != null and createTime != ''">AND create_time = #{createTime}</if>
 
         </where>
         order by create_time desc

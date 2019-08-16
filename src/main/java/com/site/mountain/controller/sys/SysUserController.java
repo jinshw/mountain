@@ -61,7 +61,7 @@ public class SysUserController {
 //            List<SysUser> sysUserList =  sysUserService.selectAllUserAndRoles(sysUser);
             SysMenu sysMenus = sysUserService.getMenuTree(sysUser);
 //            SysMenu sysMenuTree = sysMenuService.getMenuTree(new BigInteger("-1"));
-            obj.put("sysMenus",sysMenus);
+            obj.put("sysMenus", sysMenus);
 //            obj.put("user",sysUserList.get(0));
 //            obj.put("menuTree",sysMenuTree);
             obj.put("status", 30000);
@@ -156,10 +156,7 @@ public class SysUserController {
     @RequiresPermissions("userInfo:view")
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject findList(HttpServletRequest request, HttpServletResponse response) {
-        String searchText = request.getParameter("searchText");
-        SysUser sysUser = new SysUser();
-        sysUser.setUsername(searchText);
+    public JSONObject findList(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         List list = sysUserService.findList(sysUser);
         JSONObject obj = new JSONObject();
         obj.put("data", list);
