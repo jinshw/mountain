@@ -68,14 +68,15 @@ public class ShiroConfig {
          * 顺序从上到下,优先级依次降低
          *
          */
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new LinkedHashMap<String, String>();
         //登出
         map.put("/logout", "logout");
-        //对所有用户认证
-        map.put("/**", "authc");
+
         //start 访问设置
         map.put("/swagger-ui.html", "anon");
         map.put("/swagger-resources", "anon");
+        map.put("/swagger-resources/configuration/security", "anon");
+        map.put("/swagger-resources/configuration/ui", "anon");
         map.put("/v2/api-docs", "anon");
         map.put("/webjars/springfox-swagger-ui/**", "anon");
         map.put("/sysuser/login","anon");
@@ -84,6 +85,9 @@ public class ShiroConfig {
         map.put("/index.html","anon");
         map.put("/*.ico","anon");
         map.put("/static/**","anon");
+
+        //对所有用户认证
+        map.put("/**", "authc");
 
 //        map.put("/**","user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);

@@ -6,6 +6,10 @@ import com.site.mountain.entity.SysUser;
 import com.site.mountain.service.SysMenuService;
 import com.site.mountain.service.SysUserService;
 import com.site.mountain.utils.MD5Util;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -27,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(value = "sysuser", description = "系统用户类")
 @Controller
 @RequestMapping("/sysuser")
 public class SysUserController {
@@ -35,8 +40,9 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
 
+    @ApiOperation(value = "login",httpMethod="POST",notes = "用户登录")
     @RequestMapping(value = "login", method = {RequestMethod.POST})
-    public void login(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
+    public void login(@RequestBody @ApiParam(value = "前端传递过来的用户对象",required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         JSONObject obj = new JSONObject();
         ModelAndView mv = new ModelAndView();
         String sessionId = null;
@@ -153,10 +159,11 @@ public class SysUserController {
     }
 
 
+    @ApiOperation(value = "list",httpMethod="POST",notes = "用户列表",response = JSONObject.class)
     @RequiresPermissions("userInfo:view")
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject findList(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
+    public JSONObject findList(@RequestBody @ApiParam(value = "前端传递过来的用户对象",required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         List list = sysUserService.findList(sysUser);
         JSONObject obj = new JSONObject();
         obj.put("data", list);
@@ -165,8 +172,9 @@ public class SysUserController {
         return obj;
     }
 
+    @ApiOperation(value = "adduser",httpMethod="POST",notes = "用户添加",response = JSONObject.class)
     @RequestMapping(value = "adduser", method = RequestMethod.POST)
-    public void addUser(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
+    public void addUser(@RequestBody @ApiParam(value = "前端传递过来的用户对象",required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
         Timestamp createtime = new Timestamp(System.currentTimeMillis());
         sysUser.setCreateTime(createtime);
@@ -193,8 +201,9 @@ public class SysUserController {
         }
     }
 
+    @ApiOperation(value = "delete",httpMethod="POST",notes = "用户删除",response = JSONObject.class)
     @RequestMapping("delete")
-    public void delete(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
+    public void delete(@RequestBody @ApiParam(value = "前端传递过来的用户对象",required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         int flag = 0;
         JSONObject jsonObject = new JSONObject();
         flag = sysUserService.delete(sysUser);
@@ -210,8 +219,9 @@ public class SysUserController {
         }
     }
 
-    @RequestMapping("edit")
-    public void update(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response, @ModelAttribute SysUser user) {
+    @ApiOperation(value="edit", notes="用户编辑", httpMethod = "POST",response = JSONObject.class)
+    @RequestMapping(value = "edit",method = RequestMethod.POST)
+    public void update(@RequestBody @ApiParam(value = "前端传递过来的用户对象",required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response, @ModelAttribute SysUser user) {
         int flag = 0;
         JSONObject jsonObject = new JSONObject();
         flag = sysUserService.update(sysUser);
