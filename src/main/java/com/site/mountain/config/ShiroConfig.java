@@ -1,17 +1,16 @@
 package com.site.mountain.config;
 
 import com.site.mountain.filter.ShiroUserFilter;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -47,14 +46,13 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         /**
-         * 覆盖默认的user拦截器(默认拦截器解决不了ajax请求 session超时的问题,若有更好的办法请及时反馈作者)
+         * 覆盖默认的user拦截器(默认拦截器解决不了ajax请求 session超时的问题)
          */
         Map<String, Filter> filters = new LinkedHashMap<>();
         ShiroUserFilter shiroUserFilter = new ShiroUserFilter();
         // 名字不能自己随意写，要用shiro提供的anon、authc、user
         filters.put("authc", shiroUserFilter);
         shiroFilterFactoryBean.setFilters(filters);
-
 
         /**
          * 配置shiro拦截器链
@@ -98,7 +96,7 @@ public class ShiroConfig {
         //首页(登陆成功后跳转的url)
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //没有权限跳转的url(错误页面，认证不通过跳转)
-        shiroFilterFactoryBean.setUnauthorizedUrl("/invalid");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/404");
 
 
 
