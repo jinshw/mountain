@@ -1,6 +1,7 @@
 package com.site.mountain.controller.sys;
 
 import com.alibaba.fastjson.JSONObject;
+import com.site.mountain.constant.ConstantProperties;
 import com.site.mountain.entity.SysRole;
 import com.site.mountain.exception.MyException;
 import com.site.mountain.service.SysRoleService;
@@ -27,8 +28,6 @@ public class SysRoleController {
     public JSONObject findList(@RequestBody SysRole sysRole, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
         String searchText = request.getParameter("searchText");
-//        SysRole sysRole = new SysRole();
-//        sysRole.setRoleName(searchText);
         List list = sysRoleService.find(sysRole);
         jsonObject.put("code", 20000);
         jsonObject.put("data", list);

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.site.mountain.dao.mysql.SysFilesDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysFiles">
+        <result column="fid" property="fid"/>
+		<result column="fname" property="fname"/>
+		<result column="ftype" property="ftype"/>
+		<result column="suffix_name" property="suffixName"/>
+		<result column="size" property="size"/>
+		<result column="path" property="path"/>
+		<result column="create_time" property="createTime"/>
+		<result column="create_person" property="createPerson"/>
+		<result column="is_delete" property="isDelete"/>
+		<collection property="sysUser" column="create_person" select="com.site.mountain.dao.mysql.SysUserDao.findUser"/>
+    </resultMap>
+
+    <sql id="all_column">
+        `fid`,
+		`fname`,
+		`ftype`,
+		`suffix_name`,
+		`size`,
+		`path`,
+		`create_time`,
+		`create_person`,
+		`is_delete`
+
+    </sql>
+
+    <insert id="insertSelective">
+        INSERT INTO sys_files (
+		`fid`,
+		`fname`,
+		`ftype`,
+		`suffix_name`,
+		`size`,
+		`path`,
+		`create_time`,
+		`create_person`,
+		`is_delete`
+
+	) VALUES ( 
+		#{fid},
+		#{fname},
+		#{ftype},
+		#{suffixName},
+		#{size},
+		#{path},
+		#{createTime},
+		#{createPerson},
+		#{isDelete}
+	) 
+
+    </insert>
+
+    <!--有条件插入-->
+    <insert id="insert">
+        INSERT INTO sys_files
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fid!=null">`fid`,</if> 
+			<if test="fname!=null">`fname`,</if> 
+			<if test="ftype!=null">`ftype`,</if> 
+			<if test="suffixName!=null">`suffix_name`,</if> 
+			<if test="size!=null">`size`,</if> 
+			<if test="path!=null">`path`,</if> 
+			<if test="1==1">`create_time`,</if>
+			<if test="createPerson!=null">`create_person`,</if>
+			<if test="isDelete!=null">`is_delete`,</if>
+
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fid!=null">#{fid},</if> 
+			<if test="fname!=null">#{fname},</if> 
+			<if test="ftype!=null">#{ftype},</if> 
+			<if test="suffixName!=null">#{suffixName},</if> 
+			<if test="size!=null">#{size},</if> 
+			<if test="path!=null">#{path},</if>
+			<if test="1==1">SYSDATE(),</if>
+			<if test="createPerson!=null">#{createPerson},</if>
+			<if test="isDelete!=null">#{isDelete},</if> 
+
+        </trim>
+    </insert>
+
+    <select id="findList" parameterType="com.site.mountain.entity.SysFiles" resultMap="AllColumnMap">
+        select
+        <include refid="all_column"/>
+        from sys_files
+        <where>
+            <if test="fid != null">AND fid = #{fid}</if>
+			<if test="fname != null">AND fname = #{fname}</if>
+			<if test="ftype != null">AND ftype = #{ftype}</if>
+			<if test="suffixName != null">AND suffix_name = #{suffixName}</if>
+			<if test="size != null">AND size = #{size}</if>
+			<if test="path != null">AND path = #{path}</if>
+			<if test="createTime != null">AND create_time = #{createTime}</if>
+			<if test="createPerson != null">AND create_person = #{createPerson}</if>
+			<if test="isDelete != null">AND is_delete = #{isDelete}</if>
+        </where>
+		ORDER BY create_time desc
+    </select>
+
+    <delete id="delete" parameterType="com.site.mountain.entity.SysFiles">
+        DELETE from sys_files
+        <where>
+            <if test="fid != null">AND fid = #{fid}</if>
+			<if test="fname != null">AND fname = #{fname}</if>
+			<if test="ftype != null">AND ftype = #{ftype}</if>
+			<if test="suffixName != null">AND suffix_name = #{suffixName}</if>
+			<if test="size != null">AND size = #{size}</if>
+			<if test="path != null">AND path = #{path}</if>
+			<if test="createTime != null">AND create_time = #{createTime}</if>
+			<if test="createPerson != null">AND create_person = #{createPerson}</if>
+			<if test="isDelete != null">AND is_delete = #{isDelete}</if>
+
+        </where>
+    </delete>
+
+
+</mapper>
+

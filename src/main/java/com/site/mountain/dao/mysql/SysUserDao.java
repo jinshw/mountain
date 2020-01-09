@@ -4,6 +4,7 @@ import com.site.mountain.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Mapper
@@ -15,6 +16,8 @@ public interface SysUserDao {
     int insertSelective(SysUser pojo);
 
     List<String> findList(SysUser pojo);
+
+    SysUser findUser(BigInteger createPerson);
 
     int delete(SysUser pojo);
 

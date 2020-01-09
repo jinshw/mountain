@@ -16,7 +16,7 @@
  *
  * This source file is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the license upload for details.
  *
  * For details please refer to: http://www.datatables.net
  */
@@ -83,7 +83,7 @@
 	/*
 	 * It is useful to have variables which are scoped locally so only the
 	 * DataTables functions can access them and they don't leak into global space.
-	 * At the same time these functions are often useful over multiple files in the
+	 * At the same time these functions are often useful over multiple upload in the
 	 * core and API, so we list, or at least document, all variables which are used
 	 * by DataTables as private variables here. This also ensures that there is no
 	 * clashing of variable names and that they can easily referenced for reuse.
@@ -335,7 +335,7 @@
 	/**
 	 * Language compatibility - when certain options are given, and others aren't, we
 	 * need to duplicate the values over, in order to provide backwards compatibility
-	 * with older language files.
+	 * with older language upload.
 	 *  @param {object} oSettings dataTables settings object
 	 *  @memberof DataTable#oApi
 	 */
@@ -10822,7 +10822,7 @@
 			 * It must store the URL of the language file, which is in a JSON format,
 			 * and the object has the same properties as the oLanguage object in the
 			 * initialiser object (i.e. the above parameters). Please refer to one of
-			 * the example language files to see how this works in action.
+			 * the example language upload to see how this works in action.
 			 *  @type string
 			 *  @default <i>Empty string - i.e. disabled</i>
 			 *

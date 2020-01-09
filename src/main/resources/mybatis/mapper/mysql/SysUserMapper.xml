@@ -152,6 +152,16 @@
 		order by create_time desc
     </select>
 
+    <select id="findUser" parameterType="java.math.BigInteger" resultMap="AllColumnMap">
+        select
+        <include refid="all_column"/>
+        from sys_user
+        <where>
+			<if test="1==1">AND user_id = #{createPerson}</if>
+        </where>
+		order by create_time desc
+    </select>
+
 
     <delete id="delete" parameterType="com.site.mountain.entity.SysUser">
         DELETE from sys_user

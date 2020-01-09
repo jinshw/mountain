@@ -9576,7 +9576,7 @@ jQuery.ajaxSettings.xhr = window.ActiveXObject !== undefined ?
 	// Support: IE6+
 	function() {
 
-		// XHR cannot access local files, always use ActiveX for that case
+		// XHR cannot access local upload, always use ActiveX for that case
 		return !this.isLocal &&
 
 			// Support: IE7-8
@@ -10290,7 +10290,7 @@ jQuery.fn.andSelf = jQuery.fn.addBack;
 
 
 // Register as a named AMD module, since jQuery can be concatenated with other
-// files that may use define, but not via a proper concatenation script that
+// upload that may use define, but not via a proper concatenation script that
 // understands anonymous AMD modules. A named AMD is safest and most robust
 // way to register. Lowercase jquery is used because AMD module names are
 // derived from file names, and jQuery is normally delivered in a lowercase
