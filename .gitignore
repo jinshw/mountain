@@ -29,6 +29,7 @@
 
 src/main/resources/static/dist/*
 src/main/resources/templates/
+src/main/resources/upload/*
 
 with -a does not make sense.
 .vscode/
