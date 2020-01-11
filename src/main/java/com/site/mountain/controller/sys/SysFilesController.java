@@ -6,20 +6,23 @@ import com.site.mountain.constant.ConstantProperties;
 import com.site.mountain.entity.SysFiles;
 import com.site.mountain.entity.SysUser;
 import com.site.mountain.service.SysFilesService;
+import com.site.mountain.utils.UUIDUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RequestMapping(value = "/file")
@@ -67,21 +70,22 @@ public class SysFilesController {
     public void fileUpload(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", 20000);
+        SysFiles sysFiles = getSysFiles(file);
         //获取文件名
-        String fileName = file.getOriginalFilename();
+        String filePathName = UUIDUtil.create32UUID() + sysFiles.getSuffixName();
+//        String fileName = file.getOriginalFilename();
         String path = constantProperties.getFileUploadPath();
-        String filePath = path + fileName;
+        String filePath = path + filePathName;
         File saveFile = new File(filePath);
         boolean isCreateSuccess = saveFile.createNewFile();
         if (isCreateSuccess) {
             //写入文件
             file.transferTo(saveFile);
             jsonObject.put("status", 200);
-            String coverUrl = constantProperties.getImgUrl() + "/" + fileName;
-            jsonObject.put("name", fileName);
+            String coverUrl = constantProperties.getImgUrl() + "/" + filePathName;
+            jsonObject.put("name", filePathName);
             jsonObject.put("url", coverUrl);
-            SysFiles sysFiles = getSysFiles(file);
-            sysFiles.setPath(fileName);
+            sysFiles.setPath(filePathName);
             Subject currentUser = SecurityUtils.getSubject();
             SysUser sysUser = (SysUser) currentUser.getPrincipal();
             sysFiles.setCreatePerson(sysUser.getUserId());
@@ -130,7 +134,8 @@ public class SysFilesController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", 20000);
         String fileName = sysFiles.getFname();
-        String path = constantProperties.getFileUploadPath() + fileName;
+        String filePath = sysFiles.getPath();
+        String path = constantProperties.getFileUploadPath() + filePath;
         File file = new File(path);
 
         FileInputStream fileInputStream = null;
@@ -181,16 +186,16 @@ public class SysFilesController {
 
     }
 
-    @RequestMapping(value = "delete",method = RequestMethod.POST)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject delete(@RequestBody SysFiles sysFiles,HttpServletRequest request,HttpServletResponse response){
+    public JSONObject delete(@RequestBody SysFiles sysFiles, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", 20000);
         int flag = sysFilesService.delete(sysFiles);
-        if(flag==0){
+        if (flag == 0) {
             jsonObject.put("status", 500);
             jsonObject.put("msg", "删除失败");
-        }else{
+        } else {
             jsonObject.put("status", 200);
             jsonObject.put("msg", "删除成功");
         }
