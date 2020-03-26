@@ -26,4 +26,6 @@ public interface SysUserDao {
     List<SysUser> selectAllUserAndRoles(SysUser sysUser);
 
     int update(@Param("pojo") SysUser projo);
+
+    int updatePassword(@Param("pojo") SysUser projo);
 }

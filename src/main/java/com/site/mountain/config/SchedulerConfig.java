@@ -1,5 +1,6 @@
 package com.site.mountain.config;
 
+import com.site.mountain.constant.SpringContextUtil;
 import org.quartz.Scheduler;
 import org.quartz.ee.servlet.QuartzInitializerListener;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
@@ -24,7 +25,8 @@ public class SchedulerConfig {
     @Bean
     public Properties quartzProperties() throws IOException {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
-        propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
+        String active = SpringContextUtil.getActiveProfile();
+        propertiesFactoryBean.setLocation(new ClassPathResource("/env/" + active + "/quartz.properties"));
         //在quartz.properties中的属性被读取并注入后再初始化对象
         propertiesFactoryBean.afterPropertiesSet();
         return propertiesFactoryBean.getObject();

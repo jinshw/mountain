@@ -6,17 +6,19 @@ import com.site.mountain.entity.SysUser;
 import java.util.List;
 
 public interface SysUserService {
-    public int insert(SysUser pojo);
+    int insert(SysUser pojo);
 
-    public int insertSelective(SysUser pojo);
+    int insertSelective(SysUser pojo);
 
-    public List findList(SysUser SysUser);
+    List findList(SysUser SysUser);
 
-    public List<SysUser> selectAllUserAndRoles(SysUser SysUser);
+    List<SysUser> selectAllUserAndRoles(SysUser SysUser);
 
-    public int delete(SysUser SysUser);
+    int delete(SysUser SysUser);
 
-    public int update(SysUser sysUser);
+    int update(SysUser sysUser);
 
-    public SysMenu getMenuTree(SysUser sysUser);
+    SysMenu getMenuTree(SysUser sysUser);
+
+    int updatePassword(SysUser sysUser);
 }

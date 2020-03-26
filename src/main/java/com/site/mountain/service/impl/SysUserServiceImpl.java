@@ -32,6 +32,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Autowired
     private SysRoleMenuDao sysRoleMenuDao;
 
+    @Override
     @Transactional(value = "mysqlTransactionManager", rollbackFor = Exception.class, timeout = 36000)
     public int insert(SysUser pojo) {
         int flag = 0;
@@ -42,24 +43,28 @@ public class SysUserServiceImpl implements SysUserService {
         return flag;
     }
 
+    @Override
     public int insertSelective(SysUser pojo) {
         return sysUserDao.insertSelective(pojo);
     }
 
+    @Override
     public List findList(SysUser SysUser) {
         return sysUserDao.findList(SysUser);
     }
 
+    @Override
     public List<SysUser> selectAllUserAndRoles(SysUser sysUser) {
         return sysUserDao.selectAllUserAndRoles(sysUser);
     }
 
+    @Override
     public SysMenu getMenuTree(SysUser sysUser) {
 //        SysMenu sysMenu = null;
         List<String> selectedMenu = new ArrayList<String>();
         List<SysUser> list = sysUserDao.selectAllUserAndRoles(sysUser);
         SysUserRole sysUserRole = new SysUserRole();
-        for(SysMenu temp:list.get(0).getMenuList()){
+        for (SysMenu temp : list.get(0).getMenuList()) {
             selectedMenu.add(temp.getMenuId().toString());
         }
 
@@ -110,14 +115,21 @@ public class SysUserServiceImpl implements SysUserService {
         return tree;
     }
 
+    @Override
     public int delete(SysUser SysUser) {
         return sysUserDao.delete(SysUser);
     }
 
+    @Override
     public int update(SysUser sysUser) {
         int flag = sysUserDao.update(sysUser);
         flag = sysUserDao.deleteUserAndRole(sysUser);
         flag = sysUserDao.insertUserAndRole(sysUser);
         return flag;
+    }
+
+    @Override
+    public int updatePassword(SysUser sysUser) {
+        return sysUserDao.updatePassword(sysUser);
     }
 }

@@ -193,6 +193,15 @@
 		WHERE user_id = #{pojo.userId}
 	</update>
 
+	<update id="updatePassword">
+		UPDATE sys_user
+		<set>
+			<if test="pojo.password != null">`password` = #{pojo.password},</if>
+		</set>
+		WHERE user_id = #{pojo.userId}
+	</update>
+
+
 
 </mapper>
 

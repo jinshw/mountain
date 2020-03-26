@@ -1,6 +1,7 @@
 package com.site.mountain.controller.sys;
 
 import com.alibaba.fastjson.JSONObject;
+import com.site.mountain.constant.ConstantProperties;
 import com.site.mountain.entity.SysMenu;
 import com.site.mountain.entity.SysUser;
 import com.site.mountain.service.SysMenuService;
@@ -40,9 +41,12 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
 
-    @ApiOperation(value = "login",httpMethod="POST",notes = "用户登录")
+    @Autowired
+    private ConstantProperties constantProperties;
+
+    @ApiOperation(value = "login", httpMethod = "POST", notes = "用户登录")
     @RequestMapping(value = "login", method = {RequestMethod.POST})
-    public void login(@RequestBody @ApiParam(value = "前端传递过来的用户对象",required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
+    public void login(@RequestBody @ApiParam(value = "前端传递过来的用户对象", required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         JSONObject obj = new JSONObject();
         ModelAndView mv = new ModelAndView();
         String sessionId = null;
@@ -159,11 +163,11 @@ public class SysUserController {
     }
 
 
-    @ApiOperation(value = "list",httpMethod="POST",notes = "用户列表",response = JSONObject.class)
+    @ApiOperation(value = "list", httpMethod = "POST", notes = "用户列表", response = JSONObject.class)
     @RequiresPermissions("userInfo:view")
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject findList(@RequestBody @ApiParam(value = "前端传递过来的用户对象",required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
+    public JSONObject findList(@RequestBody @ApiParam(value = "前端传递过来的用户对象", required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         List list = sysUserService.findList(sysUser);
         JSONObject obj = new JSONObject();
         obj.put("data", list);
@@ -172,9 +176,9 @@ public class SysUserController {
         return obj;
     }
 
-    @ApiOperation(value = "adduser",httpMethod="POST",notes = "用户添加",response = JSONObject.class)
+    @ApiOperation(value = "adduser", httpMethod = "POST", notes = "用户添加", response = JSONObject.class)
     @RequestMapping(value = "adduser", method = RequestMethod.POST)
-    public void addUser(@RequestBody @ApiParam(value = "前端传递过来的用户对象",required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
+    public void addUser(@RequestBody @ApiParam(value = "前端传递过来的用户对象", required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         JSONObject jsonObject = new JSONObject();
         Timestamp createtime = new Timestamp(System.currentTimeMillis());
         sysUser.setCreateTime(createtime);
@@ -201,9 +205,9 @@ public class SysUserController {
         }
     }
 
-    @ApiOperation(value = "delete",httpMethod="POST",notes = "用户删除",response = JSONObject.class)
+    @ApiOperation(value = "delete", httpMethod = "POST", notes = "用户删除", response = JSONObject.class)
     @RequestMapping("delete")
-    public void delete(@RequestBody @ApiParam(value = "前端传递过来的用户对象",required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
+    public void delete(@RequestBody @ApiParam(value = "前端传递过来的用户对象", required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
         int flag = 0;
         JSONObject jsonObject = new JSONObject();
         flag = sysUserService.delete(sysUser);
@@ -219,9 +223,9 @@ public class SysUserController {
         }
     }
 
-    @ApiOperation(value="edit", notes="用户编辑", httpMethod = "POST",response = JSONObject.class)
-    @RequestMapping(value = "edit",method = RequestMethod.POST)
-    public void update(@RequestBody @ApiParam(value = "前端传递过来的用户对象",required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response, @ModelAttribute SysUser user) {
+    @ApiOperation(value = "edit", notes = "用户编辑", httpMethod = "POST", response = JSONObject.class)
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public void update(@RequestBody @ApiParam(value = "前端传递过来的用户对象", required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response, @ModelAttribute SysUser user) {
         int flag = 0;
         JSONObject jsonObject = new JSONObject();
         flag = sysUserService.update(sysUser);
@@ -237,4 +241,68 @@ public class SysUserController {
             e.printStackTrace();
         }
     }
+
+    @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
+    public void resetPassword(@RequestBody @ApiParam(value = "前端传递过来的用户对象", required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response, @ModelAttribute SysUser user) {
+        int flag = 0;
+        JSONObject jsonObject = new JSONObject();
+        String resetPassword = constantProperties.getResetPassword();
+        sysUser.setPassword(MD5Util.getMD5String(resetPassword));
+        flag = sysUserService.updatePassword(sysUser);
+        if (flag > 0) {
+            jsonObject.put("status", 200);
+        } else {
+            jsonObject.put("status", 500);
+        }
+        jsonObject.put("code", 20000);
+        try {
+            response.getWriter().print(jsonObject.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "modifyPassword", method = RequestMethod.POST)
+    public void modifyPassword(@RequestBody JSONObject paramJson, HttpServletResponse response) {
+        int flag = 0;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", 20000);
+        jsonObject.put("status", 200);
+        jsonObject.put("message", "执行成功");
+        String password = paramJson.getString("password");
+        String oldPassword = paramJson.getString("oldPassword");
+        Subject currentUser = SecurityUtils.getSubject();
+        SysUser sysUser = (SysUser) currentUser.getPrincipal();
+        // 判断用户是否登录
+        if (sysUser != null) {
+            String currentUserPasswordMD5 = sysUser.getPassword();
+            String oldPasswordMD5 = MD5Util.getMD5String(oldPassword);
+            // 判断旧密码是否正确
+            if (currentUserPasswordMD5.equals(oldPasswordMD5)) {
+                sysUser.setPassword(MD5Util.getMD5String(password));
+                flag = sysUserService.updatePassword(sysUser);
+                if (flag > 0) {
+                    jsonObject.put("status", 200);
+                    currentUser.logout();
+                } else {
+                    jsonObject.put("status", 500);// 更新失败
+                    jsonObject.put("message", "更新失败");
+                }
+            } else {
+                jsonObject.put("status", 501);// 旧密码不正确
+                jsonObject.put("message", "旧密码不正确");// 旧密码不正确
+            }
+
+        } else {
+            jsonObject.put("code", 50000);// 用户没登录
+            jsonObject.put("message", "用户没登录");
+        }
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().print(jsonObject.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

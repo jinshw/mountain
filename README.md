@@ -3,6 +3,32 @@
 
 后端工程启动后访问URL： 访问url：http://localhost:8080/mt/index.html
 
+## 更新日期-20200326
+### buglist
+* 在idea中执行package打包时，打包2次，是因为pom.xml文件中下边插件引起的，把这个注释掉
+```xml
+<plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+</plugin>
+```
+* 一个tomcat中部署多个类似项目，将报错 Unable to register MBean [HikariDataSource (null)] with key 'test1DataSource'，这是
+因为JMX：Java Management Extension(Java管理应用扩展)，默认是true，导致冲突
+解决方法，在application-xxxx.properties文件中配置下边属性,进行区分：
+```properties
+spring.jmx.default-domain=mt
+```
+
+### newlist
+* 定时执行quartz的配置文件`quartz.properties` 区分环境配置dev(开发)、test(测试)、
+prod(生产)；在env包下区分配置，并且修改SchedulerConfig.java文件中代码
+```
+String active = SpringContextUtil.getActiveProfile();
+propertiesFactoryBean.setLocation(new ClassPathResource("/env/" + active + "/quartz.properties"));
+```
+* 系统用户管理模块添加`密码重置`功能
+* 新增修改密码功能
+
 ## 更新日志-20190806
 * 多环境配置文件配置：修改`application.properties` 文件中`spring.profiles.active=dev`这个配置
 

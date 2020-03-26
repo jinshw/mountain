@@ -12,6 +12,15 @@ public class ConstantProperties {
     private String imgUploadPath;
     private String imgUrl;
     private String fileUploadPath;
+    private String resetPassword;
+
+    public String getResetPassword() {
+        return resetPassword;
+    }
+
+    public void setResetPassword(String resetPassword) {
+        this.resetPassword = resetPassword;
+    }
 
     public String getImgUploadPath() {
         return imgUploadPath;
