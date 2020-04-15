@@ -120,5 +120,13 @@
         WHERE r.role_id = ur.role_id
         AND user_id = #{user_id}
     </select>
+
+    <select id="selectRolesByUserId" parameterType="java.math.BigInteger" resultMap="AllColumnMap">
+        SELECT r.* from sys_role r, sys_user_role ur
+        WHERE r.role_id = ur.role_id
+        AND user_id = #{user_id}
+    </select>
+
+
 </mapper>
 

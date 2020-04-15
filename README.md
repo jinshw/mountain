@@ -2,6 +2,14 @@
 [前工程目地址](https://github.com/jinshw/mountain-element-ui)
 
 后端工程启动后访问URL： 访问url：http://localhost:8080/mt/index.html
+---
+## 更新日期-20200415
+### buglist
+* 权限管理一些bug修改
+* 
+
+### newlist
+* 用户管理添加昵称
 
 ## 更新日期-20200326
 ### buglist

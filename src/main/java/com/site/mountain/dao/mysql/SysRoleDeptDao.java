@@ -1,7 +1,8 @@
 package com.site.mountain.dao.mysql;
 
-import java.util.List;
 import com.site.mountain.entity.SysRoleDept;
+
+import java.util.List;
 
 public interface SysRoleDeptDao {
     int insert(SysRoleDept pojo);

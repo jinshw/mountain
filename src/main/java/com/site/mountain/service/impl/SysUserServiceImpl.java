@@ -1,11 +1,12 @@
 package com.site.mountain.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.site.mountain.dao.mysql.SysMenuDao;
 import com.site.mountain.dao.mysql.SysRoleMenuDao;
 import com.site.mountain.dao.mysql.SysUserDao;
 import com.site.mountain.dao.mysql.SysUserRoleDao;
 import com.site.mountain.entity.SysMenu;
-import com.site.mountain.entity.SysRoleMenu;
 import com.site.mountain.entity.SysUser;
 import com.site.mountain.entity.SysUserRole;
 import com.site.mountain.service.SysUserService;
@@ -51,6 +52,14 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public List findList(SysUser SysUser) {
         return sysUserDao.findList(SysUser);
+    }
+
+    @Override
+    public PageInfo<SysUser> findListPage(SysUser pojo) {
+        PageHelper.startPage(pojo.getPageNum(), pojo.getPageSize());
+        List<SysUser> list = sysUserDao.findList(pojo);
+        PageInfo<SysUser> page = new PageInfo<SysUser>(list);
+        return page;
     }
 
     @Override
@@ -132,4 +141,5 @@ public class SysUserServiceImpl implements SysUserService {
     public int updatePassword(SysUser sysUser) {
         return sysUserDao.updatePassword(sysUser);
     }
+
 }

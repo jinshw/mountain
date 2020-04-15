@@ -3,21 +3,33 @@
 <mapper namespace="com.site.mountain.dao.mysql.SysUserDao">
     <!--auto generated Code-->
     <resultMap id="AllColumnMap" type="com.site.mountain.entity.SysUser">
-		<result column="user_id" property="userId"/>
-		<result column="username" property="username"/>
-		<result column="password" property="password"/>
-		<result column="email" property="email"/>
-		<result column="mobile" property="mobile"/>
-		<result column="status" property="status"/>
-		<result column="dept_id" property="deptId"/>
-		<result column="create_time" property="createTime"/>
-		<!--<collection property="roleList" column="user_id" select="com.site.mountain.dao.mysql.SysRoleDao.findList"></collection>-->
-		<collection property="roles" column="user_id" select="com.site.mountain.dao.mysql.SysRoleDao.selectByUserId"></collection>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobile"/>
+        <result column="status" property="status"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="create_time" property="createTime"/>
+        <!--<collection property="roleList" column="user_id" select="com.site.mountain.dao.mysql.SysRoleDao.findList"></collection>-->
+        <collection property="roles" column="user_id"
+                    select="com.site.mountain.dao.mysql.SysRoleDao.selectByUserId"></collection>
+        <collection property="roleList" column="user_id"
+                    select="com.site.mountain.dao.mysql.SysRoleDao.selectRolesByUserId"></collection>
+        <collection property="depts" column="user_id"
+                    select="com.site.mountain.dao.mysql.SysDeptDao.selectByUserId"></collection>
+        <collection property="authUsers" column="user_id"
+                    select="com.site.mountain.dao.mysql.SysDeptDao.selectAuthUsers"></collection>
+        <collection property="sysDept" column="dept_id"
+                    select="com.site.mountain.dao.mysql.SysDeptDao.selectByid"></collection>
+
     </resultMap>
 
     <sql id="all_column">
 		`user_id`,
 		`username`,
+		`nickname`,
 		`password`,
 		`email`,
 		`mobile`,
@@ -27,129 +39,155 @@
 
     </sql>
 
-	<resultMap id="userRoleListMap" extends="AllColumnMap" type="com.site.mountain.entity.SysUser">
-		<collection property="roleList" columnPrefix="role_"
-					ofType="com.site.mountain.entity.SysRole"
-					resultMap="com.site.mountain.dao.mysql.SysRoleDao.AllColumnMap">
-		</collection>
-		<collection property="menuList" columnPrefix="m_"
-					ofType="com.site.mountain.entity.SysMenu"
-					resultMap="com.site.mountain.dao.mysql.SysMenuDao.AllColumnMap">
-		</collection>
-	</resultMap>
+    <resultMap id="userRoleListMap" extends="AllColumnMap" type="com.site.mountain.entity.SysUser">
+        <collection property="roleList" columnPrefix="role_"
+                    ofType="com.site.mountain.entity.SysRole"
+                    resultMap="com.site.mountain.dao.mysql.SysRoleDao.AllColumnMap">
+        </collection>
+        <collection property="menuList" columnPrefix="m_"
+                    ofType="com.site.mountain.entity.SysMenu"
+                    resultMap="com.site.mountain.dao.mysql.SysMenuDao.AllColumnMap">
+        </collection>
+    </resultMap>
 
-	<select id="selectAllUserAndRoles" parameterType="com.site.mountain.entity.SysUser"
-			resultMap="userRoleListMap">
-		SELECT
-		u.user_id,
-		u.username,
-		u.password,
-		u.email,
-		u.mobile,
-		u.status,
-		u.dept_id,
-		u.create_time,
-		r.role_id role_role_id,
-		r.role_name role_role_name,
-		r.remark role_remark,
-		r.dept_id role_dept_id,
-		m.menu_id m_menu_id,
-		m.parent_id m_parent_id,
-		m.`name` m_name,
-		m.url m_url,
-		m.perms m_perms,
-		m.type m_type,
-		m.icon m_icon,
-		m.order_num m_order_num
-		from sys_user u,sys_role r,sys_user_role ur,sys_menu m,sys_role_menu rm
-		<where>
-			<if test="1==1">
-				AND u.user_id = ur.user_id and r.role_id = ur.role_id and m.menu_id = rm.menu_id and r.role_id = rm.role_id
-				AND u.status = 1
-			</if>
-			<if test="username != null and username != ''">
-				AND u.username = #{username}
-			</if>
-			<if test="password != null and password != ''">
-				AND u.password = #{password}
-			</if>
-		</where>
-		order by username asc
-	</select>
+    <select id="selectAllUserAndRoles" parameterType="com.site.mountain.entity.SysUser"
+            resultMap="userRoleListMap">
+        SELECT
+        u.user_id,
+        u.username,
+        u.nickname,
+        u.password,
+        u.email,
+        u.mobile,
+        u.status,
+        u.dept_id,
+        u.create_time,
+        r.role_id role_role_id,
+        r.role_name role_role_name,
+        r.remark role_remark,
+        r.dept_id role_dept_id,
+        m.menu_id m_menu_id,
+        m.parent_id m_parent_id,
+        m.`name` m_name,
+        m.url m_url,
+        m.perms m_perms,
+        m.type m_type,
+        m.icon m_icon,
+        m.order_num m_order_num
+        from sys_user u,sys_role r,sys_user_role ur,sys_menu m,sys_role_menu rm
+        <where>
+            <if test="1==1">
+                AND u.user_id = ur.user_id and r.role_id = ur.role_id and m.menu_id = rm.menu_id and r.role_id =
+                rm.role_id
+                AND u.status = 1
+            </if>
+            <if test="username != null and username != ''">
+                AND u.username = #{username}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                AND u.nickname = #{nickname}
+            </if>
+            <if test="password != null and password != ''">
+                AND u.password = #{password}
+            </if>
+        </where>
+        order by username asc
+    </select>
 
-	<insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.user_id">
-		INSERT INTO sys_user
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="pojo.userId!=null">`user_id`,</if>
-			<if test="pojo.username!=null">`username`,</if>
-			<if test="pojo.password!=null">`password`,</if>
-			<if test="pojo.email!=null">`email`,</if>
-			<if test="pojo.mobile!=null">`mobile`,</if>
-			<if test="pojo.status!=null">`status`,</if>
-			<if test="pojo.deptId!=null">`dept_id`,</if>
-			<if test="pojo.createTime!=null">`create_time`,</if>
-		</trim>
-		VALUES
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="pojo.userId!=null">#{pojo.userId},</if>
-			<if test="pojo.username!=null">#{pojo.username},</if>
-			<if test="pojo.password!=null">#{pojo.password},</if>
-			<if test="pojo.email!=null">#{pojo.email},</if>
-			<if test="pojo.mobile!=null">#{pojo.mobile},</if>
-			<if test="pojo.status!=null">#{pojo.status},</if>
-			<if test="pojo.deptId!=null">#{pojo.deptId},</if>
-			<if test="pojo.createTime!=null">#{pojo.createTime},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.user_id">
+        INSERT INTO sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.userId!=null">`user_id`,</if>
+            <if test="pojo.username!=null">`username`,</if>
+            <if test="pojo.nickname!=null">`nickname`,</if>
+            <if test="pojo.password!=null">`password`,</if>
+            <if test="pojo.email!=null">`email`,</if>
+            <if test="pojo.mobile!=null">`mobile`,</if>
+            <if test="pojo.status!=null">`status`,</if>
+            <if test="pojo.deptId!=null">`dept_id`,</if>
+            <if test="pojo.createTime!=null">`create_time`,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.userId!=null">#{pojo.userId},</if>
+            <if test="pojo.username!=null">#{pojo.username},</if>
+            <if test="pojo.nickname!=null">#{pojo.nickname},</if>
+            <if test="pojo.password!=null">#{pojo.password},</if>
+            <if test="pojo.email!=null">#{pojo.email},</if>
+            <if test="pojo.mobile!=null">#{pojo.mobile},</if>
+            <if test="pojo.status!=null">#{pojo.status},</if>
+            <if test="pojo.deptId!=null">#{pojo.deptId},</if>
+            <if test="pojo.createTime!=null">#{pojo.createTime},</if>
+        </trim>
+    </insert>
 
 
     <!--有条件插入-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="userId" parameterType="com.site.mountain.entity.SysUser">
         INSERT INTO sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="userId!=null">`user_id`,</if>
-			<if test="username!=null">`username`,</if>
-			<if test="password!=null">`password`,</if>
-			<if test="email!=null">`email`,</if>
-			<if test="mobile!=null">`mobile`,</if>
-			<if test="status!=null">`status`,</if>
-			<if test="deptId!=null">`dept_id`,</if>
-			<if test="createTime!=null">`create_time`,</if>
+            <if test="userId!=null">`user_id`,</if>
+            <if test="username!=null">`username`,</if>
+            <if test="nickname!=null">`nickname`,</if>
+            <if test="password!=null">`password`,</if>
+            <if test="email!=null">`email`,</if>
+            <if test="mobile!=null">`mobile`,</if>
+            <if test="status!=null">`status`,</if>
+            <if test="deptId!=null">`dept_id`,</if>
+            <if test="createTime!=null">`create_time`,</if>
 
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="userId!=null">#{userId},</if>
-			<if test="username!=null">#{username},</if>
-			<if test="password!=null">#{password},</if>
-			<if test="email!=null">#{email},</if>
-			<if test="mobile!=null">#{mobile},</if>
-			<if test="status!=null">#{status},</if>
-			<if test="deptId!=null">#{deptId},</if>
-			<if test="createTime!=null">#{createTime},</if>
+            <if test="userId!=null">#{userId},</if>
+            <if test="username!=null">#{username},</if>
+            <if test="nickname!=null">#{nickname},</if>
+            <if test="password!=null">#{password},</if>
+            <if test="email!=null">#{email},</if>
+            <if test="mobile!=null">#{mobile},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="deptId!=null">#{deptId},</if>
+            <if test="createTime!=null">#{createTime},</if>
 
         </trim>
     </insert>
 
-	<insert id="insertUserAndRole" parameterType="com.site.mountain.entity.SysUser">
-		INSERT INTO sys_user_role(user_id,role_id) values
-		<foreach collection="roles" item="roleId" separator=",">
-			(#{userId},#{roleId})
-		</foreach>
-	</insert>
+    <insert id="insertUserAndRole" parameterType="com.site.mountain.entity.SysUser">
+        INSERT INTO sys_user_role(user_id,role_id) values
+        <foreach collection="roles" item="roleId" separator=",">
+            (#{userId},#{roleId})
+        </foreach>
+    </insert>
 
     <select id="findList" parameterType="com.site.mountain.entity.SysUser" resultMap="AllColumnMap">
         select
         <include refid="all_column"/>
         from sys_user
         <where>
-			<if test="userId != null and userId !='' ">AND user_id = #{userId}</if>
-			<if test="username != null and username != ''">
-				<bind name="pattern" value="'%' + username + '%'" />
-				AND username LIKE  #{pattern}
-			</if>
+            <if test="userId != null and userId !='' ">AND user_id = #{userId}</if>
+            <if test="username != null and username != ''">
+                <bind name="pattern" value="'%' + username + '%'"/>
+                AND username LIKE #{pattern}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                <bind name="pattern2" value="'%' + nickname + '%'"/>
+                AND nickname LIKE #{pattern2}
+            </if>
+            <if test="roles != null and roles.length > 0">
+                and user_id in
+                (
+                SELECT user_id from sys_user_role
+                where role_id in
+                <foreach collection="roles" item="role" index="index" open="(" close=")" separator=",">
+                    #{role}
+                </foreach>
+                )
+            </if>
         </where>
-		order by create_time desc
+        order by create_time desc
     </select>
 
     <select id="findUser" parameterType="java.math.BigInteger" resultMap="AllColumnMap">
@@ -157,50 +195,51 @@
         <include refid="all_column"/>
         from sys_user
         <where>
-			<if test="1==1">AND user_id = #{createPerson}</if>
+            <if test="1==1">AND user_id = #{createPerson}</if>
         </where>
-		order by create_time desc
+        order by create_time desc
     </select>
 
 
     <delete id="delete" parameterType="com.site.mountain.entity.SysUser">
         DELETE from sys_user
         <where>
-			<if test="1==1">AND user_id = #{userId}</if>
-			<if test="username != null">AND username = #{username}</if>
-			<if test="password != null">AND password = #{password}</if>
-			<if test="email != null">AND email = #{email}</if>
-			<if test="mobile != null">AND mobile = #{mobile}</if>
-			<if test="status != null">AND status = #{status}</if>
-			<if test="deptId != null">AND dept_id = #{deptId}</if>
-			<if test="createTime != null">AND create_time = #{createTime}</if>
+            <if test="1==1">AND user_id = #{userId}</if>
+            <if test="username != null">AND username = #{username}</if>
+            <if test="nickname != null">AND nickname = #{nickname}</if>
+            <if test="password != null">AND password = #{password}</if>
+            <if test="email != null">AND email = #{email}</if>
+            <if test="mobile != null">AND mobile = #{mobile}</if>
+            <if test="status != null">AND status = #{status}</if>
+            <if test="deptId != null">AND dept_id = #{deptId}</if>
+            <if test="createTime != null">AND create_time = #{createTime}</if>
 
         </where>
     </delete>
 
-	<delete id="deleteUserAndRole" parameterType="com.site.mountain.entity.SysUser">
+    <delete id="deleteUserAndRole" parameterType="com.site.mountain.entity.SysUser">
 		DELETE FROM sys_user_role WHERE user_id = #{userId}
 	</delete>
 
-	<update id="update">
-		UPDATE sys_user
-		<set>
-			<if test="pojo.username != null">`username` = #{pojo.username},</if>
-			<if test="pojo.email != null">`email` = #{pojo.email},</if>
-			<if test="pojo.mobile != null">`mobile` = #{pojo.mobile},</if>
-			<if test="pojo.status != null">`status` = #{pojo.status}</if>
-		</set>
-		WHERE user_id = #{pojo.userId}
-	</update>
-
-	<update id="updatePassword">
-		UPDATE sys_user
-		<set>
-			<if test="pojo.password != null">`password` = #{pojo.password},</if>
-		</set>
-		WHERE user_id = #{pojo.userId}
-	</update>
-
+    <update id="update">
+        UPDATE sys_user
+        <set>
+            <if test="pojo.username != null">`username` = #{pojo.username},</if>
+            <if test="pojo.nickname != null">`nickname` = #{pojo.nickname},</if>
+            <if test="pojo.email != null">`email` = #{pojo.email},</if>
+            <if test="pojo.mobile != null">`mobile` = #{pojo.mobile},</if>
+            <if test="pojo.status != null">`status` = #{pojo.status},</if>
+            <if test="pojo.deptId != null">`dept_id` = #{pojo.deptId}</if>
+        </set>
+        WHERE user_id = #{pojo.userId}
+    </update>
+    <update id="updatePassword">
+        UPDATE sys_user
+        <set>
+            <if test="pojo.password != null">`password` = #{pojo.password},</if>
+        </set>
+        WHERE user_id = #{pojo.userId}
+    </update>
 
 
 </mapper>

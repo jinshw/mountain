@@ -29,12 +29,17 @@ public class MyShiroRealm extends AuthorizingRealm {
 //        sysUser.setUsername(name);
         //查询用户名称
 //        User user = loginService.findByName(name);
-        List<SysUser> list = sysUserService.selectAllUserAndRoles(sysUser);
+        SysUser tempUser = new SysUser();
+        tempUser.setUsername(sysUser.getUsername());
+        tempUser.setPassword(sysUser.getPassword());
+        List<SysUser> list = sysUserService.selectAllUserAndRoles(tempUser);
         SysUser userInfo = null;
         if (list.size() != 0) {
             userInfo = list.get(0);
         }
         //添加角色和权限
+        String perm;
+        String[] perms;
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         for (SysRole role : userInfo.getRoleList()) {
 //        for (Role role : user.getRoles()) {
@@ -44,7 +49,12 @@ public class MyShiroRealm extends AuthorizingRealm {
             for (SysMenu sysMenu : userInfo.getMenuList()) {
 //            for (Permission permission : role.getPermissions()) {
                 //添加权限
-                simpleAuthorizationInfo.addStringPermission(sysMenu.getPerms());
+//                simpleAuthorizationInfo.addStringPermission(sysMenu.getPerms());
+                perm = sysMenu.getPerms();
+                perms = perm.split(",");
+                for (int pIndex = 0; pIndex < perms.length; pIndex++) {
+                    simpleAuthorizationInfo.addStringPermission(perms[pIndex]);
+                }
             }
         }
         return simpleAuthorizationInfo;

@@ -2,7 +2,6 @@ package com.site.mountain.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.lang.String;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,6 @@
 package com.site.mountain.service;
 
 import com.site.mountain.entity.SysMenu;
-import com.site.mountain.entity.SysPermission;
 
 import java.math.BigInteger;
 import java.util.List;

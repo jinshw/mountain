@@ -2,8 +2,6 @@ package com.site.mountain.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.lang.String;
-import java.lang.Integer;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +10,7 @@ import java.util.List;
 public class SysUser implements Serializable {
     private BigInteger userId;
     private String username;
+    private String nickname;
     private String password;
     private String email;
     private String mobile;
@@ -19,9 +18,74 @@ public class SysUser implements Serializable {
     private BigInteger deptId;
     private Timestamp createTime;
     private Integer[] roles = new Integer[100];
+    private Integer[] depts = new Integer[1000];
+    private List<BigInteger> authUsers = new ArrayList<>();
 
     private List<SysRole> roleList = new ArrayList<SysRole>();
     private List<SysMenu> menuList = new ArrayList<SysMenu>();
+    private List<SysDept> deptList = new ArrayList<SysDept>();
+
+    // 扩展字段
+    private Integer pageNum;
+    private Integer pageSize;
+    private SysUser sysUser;
+    private SysDept sysDept;
+
+    public SysDept getSysDept() {
+        return sysDept;
+    }
+
+    public void setSysDept(SysDept sysDept) {
+        this.sysDept = sysDept;
+    }
+
+    public List<BigInteger> getAuthUsers() {
+        return authUsers;
+    }
+
+    public void setAuthUsers(List<BigInteger> authUsers) {
+        this.authUsers = authUsers;
+    }
+
+    public Integer[] getDepts() {
+        return depts;
+    }
+
+    public void setDepts(Integer[] depts) {
+        this.depts = depts;
+    }
+
+    public List<SysDept> getDeptList() {
+        return deptList;
+    }
+
+    public void setDeptList(List<SysDept> deptList) {
+        this.deptList = deptList;
+    }
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public SysUser getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
 
     public List<SysRole> getRoleList() {
         return roleList;
@@ -109,5 +173,13 @@ public class SysUser implements Serializable {
 
     public void setRoles(Integer[] roles) {
         this.roles = roles;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

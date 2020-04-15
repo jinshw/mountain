@@ -15,11 +15,12 @@ public class SysDeptServiceImpl implements SysDeptService {
     @Autowired
     public SysDeptDao sysDeptDao;
 
+    @Override
     public SysDept getMenuTree(BigInteger id) {
         SysDept tree = new SysDept();
         tree = sysDeptDao.selectByid(id);
         SysDept parentDept = sysDeptDao.selectByid(tree.getParentId());
-        if (parentDept != null && !parentDept.getDeptId().toString().equals("-1")) {
+        if (parentDept != null && !"-1".equals(parentDept.getDeptId().toString())) {
             tree.setParentName(parentDept.getName());
         }
         SysDept sysDept = new SysDept();
@@ -32,15 +33,18 @@ public class SysDeptServiceImpl implements SysDeptService {
         return tree;
     }
 
+    @Override
     public int insert(SysDept sysDept) {
         return sysDeptDao.insert(sysDept);
     }
 
+    @Override
     public int delete(SysDept sysDept) {
         return sysDeptDao.delete(sysDept);
 //        return sysDeptDao.update(sysDept);
     }
 
+    @Override
     public int update(SysDept sysDept) {
         return sysDeptDao.update(sysDept);
     }

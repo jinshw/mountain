@@ -1,7 +1,6 @@
 package com.site.mountain.controller.sys;
 
 import com.alibaba.fastjson.JSONObject;
-import com.site.mountain.constant.ConstantProperties;
 import com.site.mountain.entity.SysRole;
 import com.site.mountain.exception.MyException;
 import com.site.mountain.service.SysRoleService;

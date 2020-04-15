@@ -3,7 +3,6 @@ package com.site.mountain.service.impl;
 import com.site.mountain.dao.mysql.SysMenuDao;
 import com.site.mountain.dao.mysql.SysRoleMenuDao;
 import com.site.mountain.entity.SysMenu;
-import com.site.mountain.entity.SysRoleMenu;
 import com.site.mountain.service.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +19,12 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Autowired
     SysRoleMenuDao sysRoleMenuDao;
 
+    @Override
     public int insert(SysMenu pojo) {
         return sysMenuDao.insert(pojo);
     }
 
+    @Override
     public int insertSelective(SysMenu pojo) {
         return sysMenuDao.insertSelective(pojo);
     }
@@ -33,18 +34,22 @@ public class SysMenuServiceImpl implements SysMenuService {
         return 0;
     }
 
+    @Override
     public int update(SysMenu pojo) {
         return sysMenuDao.update(pojo);
     }
 
+    @Override
     public List<SysMenu> findList(SysMenu sysMenu) {
         return sysMenuDao.findList(sysMenu);
     }
 
+    @Override
     public int delete(SysMenu sysMenu) {
         return sysMenuDao.delete(sysMenu);
     }
 
+    @Override
     public SysMenu getMenuTree(BigInteger id) {
         SysMenu tree = new SysMenu();
         tree = sysMenuDao.selectByid(id);

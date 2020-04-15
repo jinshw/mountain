@@ -15,7 +15,7 @@ public interface SysUserDao {
 
     int insertSelective(SysUser pojo);
 
-    List<String> findList(SysUser pojo);
+    List<SysUser> findList(SysUser pojo);
 
     SysUser findUser(BigInteger createPerson);
 

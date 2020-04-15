@@ -1,14 +1,13 @@
 package com.site.mountain.controller.sys;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.site.mountain.constant.ConstantProperties;
 import com.site.mountain.entity.SysMenu;
 import com.site.mountain.entity.SysUser;
-import com.site.mountain.service.SysMenuService;
 import com.site.mountain.service.SysUserService;
 import com.site.mountain.utils.MD5Util;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.SecurityUtils;
@@ -26,7 +25,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +40,7 @@ public class SysUserController {
     private SysUserService sysUserService;
 
     @Autowired
-    private ConstantProperties constantProperties;
+    ConstantProperties constantProperties;
 
     @ApiOperation(value = "login", httpMethod = "POST", notes = "用户登录")
     @RequestMapping(value = "login", method = {RequestMethod.POST})
@@ -176,6 +174,19 @@ public class SysUserController {
         return obj;
     }
 
+    @ApiOperation(value = "listPage", httpMethod = "POST", notes = "用户列表分页", response = JSONObject.class)
+    @RequiresPermissions("userInfo:view")
+    @RequestMapping(value = "listPage", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> findListPage(@RequestBody @ApiParam(value = "前端传递过来的用户对象", required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
+        PageInfo<SysUser> pageInfo = sysUserService.findListPage(sysUser);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("data", pageInfo);
+        map.put("number", pageInfo.getTotal());
+        map.put("code", 20000);
+        return map;
+    }
+
     @ApiOperation(value = "adduser", httpMethod = "POST", notes = "用户添加", response = JSONObject.class)
     @RequestMapping(value = "adduser", method = RequestMethod.POST)
     public void addUser(@RequestBody @ApiParam(value = "前端传递过来的用户对象", required = true) SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
@@ -304,5 +315,4 @@ public class SysUserController {
             e.printStackTrace();
         }
     }
-
 }

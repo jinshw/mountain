@@ -1,11 +1,11 @@
 package com.site.mountain.dao.mysql;
 
-import java.math.BigInteger;
-import java.util.List;
-
 import com.site.mountain.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.math.BigInteger;
+import java.util.List;
 
 @Mapper
 public interface SysRoleDao {
@@ -28,5 +28,7 @@ public interface SysRoleDao {
     int update(@Param("pojo") SysRole pojo);
 
     Integer selectByUserId(BigInteger id);
+
+    List<SysRole> selectRolesByUserId(BigInteger id);
 
 }

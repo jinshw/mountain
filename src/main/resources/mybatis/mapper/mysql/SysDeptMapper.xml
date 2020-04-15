@@ -130,5 +130,21 @@
 		where d.dept_id = rd.dept_id
 		and rd.role_id = #{roleId}
 	</select>
+
+    <select id="selectByUserId" parameterType="java.math.BigInteger" resultType="java.lang.Integer">
+        SELECT DISTINCT d.dept_id from sys_role r, sys_user_role ur,sys_role_dept rd,sys_dept d
+        WHERE r.role_id = ur.role_id and r.role_id = rd.role_id and rd.dept_id = d.dept_id
+        and ur.user_id = #{user_id}
+    </select>
+    <select id="selectAuthUsers" parameterType="java.math.BigInteger" resultType="java.lang.Integer">
+        SELECT user_id FROM sys_user
+        where dept_id in
+        (
+            SELECT DISTINCT d.dept_id
+            FROM sys_role r, sys_user_role ur,sys_role_dept rd,sys_dept d
+            WHERE r.role_id = ur.role_id and r.role_id = rd.role_id and rd.dept_id = d.dept_id
+            and ur.user_id = #{user_id}
+        )
+    </select>
 </mapper>
 
