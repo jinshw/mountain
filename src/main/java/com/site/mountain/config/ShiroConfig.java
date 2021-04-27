@@ -84,6 +84,7 @@ public class ShiroConfig {
         map.put("/*.ico","anon");
         map.put("/static/**","anon");
         map.put("/picture/**","anon");
+        map.put("/api/**","anon");
 
         //对所有用户认证
         map.put("/**", "authc");

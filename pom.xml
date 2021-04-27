@@ -110,8 +110,6 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.13</version>
         </dependency>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -119,6 +117,35 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- ElasticSearch 核心包 -->
+<!--        <dependency>-->
+<!--            <groupId>org.elasticsearch</groupId>-->
+<!--            <artifactId>elasticsearch</artifactId>-->
+<!--            <version>6.5.4</version>-->
+<!--        </dependency>-->
+        <!-- ElasticSearch低版本客户端-->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-client</artifactId>
+            <version>6.5.4</version>
+        </dependency>
+        <!-- ElasticSearch高版本客户端 -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>6.5.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+            <version>2.1.3.RELEASE</version>
+        </dependency>
+<!--    spring-boot-starter-data-elasticsearch 中包含 spring-data-elasticsearch   -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.data</groupId>-->
+<!--            <artifactId>spring-data-elasticsearch</artifactId>-->
+<!--            <version>2.1.3.RELEASE</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -164,8 +191,8 @@
             <!-- Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id
             就会覆盖中央仓库的配置 -->
             <id>mvnrepository</id>
-            <name>mvnrepository</name>
-            <url>http://www.mvnrepository.com/</url>
+            <name>Nexus aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
             <layout>default</layout>
             <releases>
                 <enabled>true</enabled>
