@@ -127,7 +127,7 @@
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-client</artifactId>
-            <version>6.5.4</version>
+            <version>6.8.15</version>
         </dependency>
         <!-- ElasticSearch高版本客户端 -->
         <dependency>
